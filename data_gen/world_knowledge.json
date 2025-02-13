@@ -1,0 +1,594 @@
+{
+	"District": {
+		"Residential Districts": [
+			"Suburban Neighborhood", "Apartment Complex", "Gated Community", "Townhouse Community",
+			"Retirement Village", "Condo Development", "Mobile Home Park", "Historic Residential Area",
+			"Luxury Estates", "Affordable Housing", "Mixed-Use Development", "Eco-Friendly Community",
+			"University Housing", "Co-op Housing", "Farmhouse Community", "Beachfront Properties",
+			"Mountain Retreats", "Lakefront Homes", "Urban Lofts", "Rural Homesteads"
+		],
+		"Commercial Districts": [
+			"Shopping District", "Business District", "Financial District", "Industrial District",
+			"Warehouse District", "Market District", "Restaurant District", "Entertainment District",
+			"Arts District", "Fashion District", "Silicon Valley", "Wall Street",
+			"Tech Park", "Automotive District", "Jewelry District", "Medical District",
+			"Legal District", "Media District", "Research Park", "Manufacturing District"
+		],
+		"Historical Districts": [
+			"Old Town", "Heritage Village", "Colonial Quarter", "Victorian District",
+			"Medieval Town", "Renaissance Area", "Industrial Revolution Site", "Ancient Ruins",
+			"Cultural Heritage Site", "Archaeological Park", "Pioneer Settlement", "Historic Downtown",
+			"Monumental Area", "Preservation District", "Revolutionary War Site", "Civil War District",
+			"Art Deco District", "Gothic Quarter", "Baroque Area", "Neoclassical Zone"
+		],
+		"Educational Districts": [
+			"University Campus", "College Town", "Research Park", "STEM Center",
+			"Arts Academy", "Medical School District", "Law School Area", "Business School Zone",
+			"Engineering Hub", "Liberal Arts Quarter", "Vocational Training Center", "Language Institute",
+			"Performing Arts District", "Science Park", "Technology Institute", "Innovation Hub",
+			"Educational Corridor", "Library District", "Museum Quarter", "Cultural Learning Center"
+		],
+		"Government Districts": [
+			"Capitol Hill", "City Hall Area", "Federal Plaza", "Judicial Quarter",
+			"Diplomatic Enclave", "Municipal Offices", "Public Services Hub", "Tax Office District",
+			"Immigration Center", "Customs Zone", "Defense Headquarters", "Intelligence Agency Area",
+			"Police Headquarters", "Fire Department Zone", "Emergency Services District", "Public Works Area",
+			"Transportation Hub", "Urban Planning Office", "Environmental Agency", "Health Department Zone"
+		]
+	},
+	"Supermarket": {
+		"Hypermarkets": [
+			"Walmart", "Target", "Costco", "Carrefour",
+			"Tesco", "Auchan", "Hypermarket", "Big Bazaar",
+			"Lotte Mart", "AEON", "Metro", "Albertsons",
+			"Kroger", "Publix", "Meijer", "Hy-Vee",
+			"Giant Eagle", "H-E-B", "WinCo Foods", "Food Lion"
+		],
+		"Superstores": [
+			"Superstore", "Asda", "Sainsbury's", "Morrisons",
+			"Waitrose", "Aldi", "Lidl", "Coles",
+			"Woolworths", "Big W", "Kmart", "Fred Meyer",
+			"Food 4 Less", "Safeway", "Vons", "Ralphs",
+			"Harris Teeter", "Stop & Shop", "Giant Food", "ShopRite"
+		],
+		"Discount Stores": [
+			"Dollar General", "Family Dollar", "Dollar Tree", "Five Below",
+			"Big Lots", "99 Cents Only Stores", "Aldi", "Lidl",
+			"Save-A-Lot", "Price Chopper", "Price Rite", "Market Basket",
+			"WinCo Foods", "Grocery Outlet", "Trader Joe's", "ALDI Nord",
+			"Netto", "Penny Market", "Norma", "Eurospin"
+		],
+		"Specialty Stores": [
+			"Whole Foods Market", "Trader Joe's", "Sprouts Farmers Market", "The Fresh Market",
+			"Natural Grocers", "Earth Fare", "Publix GreenWise", "Wegmans",
+			"Bristol Farms", "Gelson's", "New Seasons Market", "Central Market",
+			"Metropolitan Market", "Mariano's", "Jungle Jim's", "Stew Leonard's",
+			"Fairway Market", "Zupan's Markets", "Balducci's", "Dean & DeLuca"
+		],
+		"Online Grocers": [
+			"Amazon Fresh", "Instacart", "Walmart Grocery", "Peapod",
+			"Shipt", "FreshDirect", "Thrive Market", "Boxed",
+			"Google Express", "Jet", "Misfits Market", "Imperfect Foods",
+			"Farmbox Direct", "Mercato", "Hungryroot", "Good Eggs",
+			"Farmstead", "GrubMarket", "MilkRun", "Farmbox Direct"
+		]
+	},
+	"Product": {
+		"Canned Foods": [
+			"Canned Beans", "Canned Soup", "Canned Vegetables", "Canned Fruit",
+			"Canned Meat", "Canned Fish", "Canned Chili", "Canned Pasta",
+			"Canned Stew", "Canned Sauce", "Canned Broth", "Canned Gravy",
+			"Canned Pie Filling", "Canned Jam", "Canned Pudding", "Canned Milk",
+			"Canned Cheese", "Canned Bread", "Canned Dessert", "Canned Baby Food"
+		],
+		"Snack Foods": [
+			"Potato Chips", "Pretzels", "Popcorn", "Candy Bars",
+			"Gummy Candy", "Cookies", "Crackers", "Granola Bars",
+			"Fruit Snacks", "Cheese Puffs", "Nuts", "Trail Mix",
+			"Beef Jerky", "Rice Cakes", "Yogurt Covered Raisins", "Chocolate Covered Pretzels",
+			"Tortilla Chips", "Salsa", "Hummus", "Dried Fruit"
+		],
+		"Beverages": [
+			"Soda", "Juice", "Water", "Tea",
+			"Coffee", "Energy Drinks", "Sports Drinks", "Milk",
+			"Alcoholic Beverages", "Kombucha", "Smoothies", "Protein Shakes",
+			"Sparkling Water", "Flavored Water", "Iced Tea", "Lemonade",
+			"Coconut Water", "Herbal Tea", "Hot Chocolate", "Apple Cider"
+		],
+		"Baked Goods": [
+			"Bread", "Bagels", "Muffins", "Croissants",
+			"Donuts", "Cakes", "Cookies", "Pies",
+			"Tarts", "Pastries", "Cupcakes", "Brownies",
+			"Scones", "Biscuits", "Rolls", "Baguettes",
+			"Pita Bread", "Tortillas", "Naan", "Pizza Dough"
+		],
+		"Dairy Products": [
+			"Milk", "Cheese", "Yogurt", "Butter",
+			"Cream", "Sour Cream", "Cottage Cheese", "Whipped Cream",
+			"Ice Cream", "Frozen Yogurt", "Eggs", "Margarine",
+			"Almond Milk", "Soy Milk", "Oat Milk", "Rice Milk",
+			"Goat Cheese", "Feta Cheese", "Parmesan", "Mozzarella"
+		]
+	},
+	"Ingredient": {
+		"Herbs": [
+			"Basil", "Parsley", "Cilantro", "Dill",
+			"Rosemary", "Thyme", "Oregano", "Sage",
+			"Mint", "Chives", "Tarragon", "Bay Leaves",
+			"Lemongrass", "Coriander", "Fennel", "Marjoram",
+			"Chervil", "Savory", "Lavender", "Sorrel"
+		],
+		"Spices": [
+			"Cinnamon", "Nutmeg", "Cloves", "Ginger",
+			"Turmeric", "Cumin", "Coriander", "Paprika",
+			"Chili Powder", "Cayenne Pepper", "Black Pepper", "White Pepper",
+			"Mustard Seeds", "Fenugreek", "Cardamom", "Allspice",
+			"Star Anise", "Saffron", "Sumac", "Curry Powder"
+		],
+		"Oils": [
+			"Olive Oil", "Coconut Oil", "Canola Oil", "Vegetable Oil",
+			"Sunflower Oil", "Sesame Oil", "Peanut Oil", "Avocado Oil",
+			"Grapeseed Oil", "Walnut Oil", "Flaxseed Oil", "Palm Oil",
+			"Corn Oil", "Soybean Oil", "Almond Oil", "Hazelnut Oil",
+			"Pumpkin Seed Oil", "Macadamia Oil", "Rice Bran Oil", "Mustard Oil"
+		],
+		"Vinegars": [
+			"Balsamic Vinegar", "Apple Cider Vinegar", "White Vinegar", "Red Wine Vinegar",
+			"Rice Vinegar", "Sherry Vinegar", "Champagne Vinegar", "Malt Vinegar",
+			"Distilled Vinegar", "Coconut Vinegar", "Date Vinegar", "Black Vinegar",
+			"Herb Vinegar", "Fruit Vinegar", "Honey Vinegar", "Beer Vinegar",
+			"Wine Vinegar", "Spirit Vinegar", "Flavored Vinegar", "Kombucha Vinegar"
+		],
+		"Condiments": [
+			"Ketchup", "Mustard", "Mayonnaise", "Barbecue Sauce",
+			"Hot Sauce", "Soy Sauce", "Worcestershire Sauce", "Teriyaki Sauce",
+			"Fish Sauce", "Oyster Sauce", "Hoisin Sauce", "Sriracha",
+			"Tartar Sauce", "Ranch Dressing", "Thousand Island Dressing", "Blue Cheese Dressing",
+			"Caesar Dressing", "Italian Dressing", "French Dressing", "Vinaigrette"
+		]
+	},
+	"Zoo": {
+		"Urban Zoos": [
+			"Metro City Zoo", "Central Park Zoo", "Downtown Wildlife Park", "Cityscape Animal Sanctuary",
+			"Urban Jungle Zoo", "Skyline Zoological Gardens", "Capital City Zoo", "Harborview Wildlife Center",
+			"Riverside Zoo", "Metropolis Animal Park", "City Lights Zoo", "Downtown Safari Park",
+			"Urban Oasis Zoo", "Skyline Wildlife Sanctuary", "Capital Park Zoo", "Harborfront Animal Gardens",
+			"Cityscape Zoo", "Metro Wildlife Park", "Urban Safari Park", "Downtown Animal Sanctuary"
+		],
+		"Wildlife Sanctuaries": [
+			"Green Valley Sanctuary", "Forest Haven Wildlife Park", "Mountain Ridge Sanctuary", "Sunset Plains Zoo",
+			"Wilderness Refuge", "Golden Horizon Sanctuary", "Eco Valley Wildlife Park", "Blue Sky Sanctuary",
+			"Nature's Haven Zoo", "Green Meadows Sanctuary", "Forest Edge Wildlife Park", "Mountain Peak Sanctuary",
+			"Sunset Ridge Zoo", "Wilderness Oasis", "Golden Plains Sanctuary", "Eco Haven Wildlife Park",
+			"Blue Horizon Sanctuary", "Nature's Edge Zoo", "Green Ridge Wildlife Park", "Forest Peak Sanctuary"
+		],
+		"Conservation Parks": [
+			"Earth's Haven Conservation Park", "Wildlife Preservation Zoo", "EcoSphere Sanctuary", "Nature's Legacy Park",
+			"Green Earth Conservation Zoo", "Wildlife Harmony Park", "EcoVision Sanctuary", "Nature's Balance Zoo",
+			"Earth's Oasis Conservation Park", "Wildlife Guardians Sanctuary", "EcoHarmony Park", "Nature's Promise Zoo",
+			"Green Horizon Conservation Park", "Wildlife Unity Sanctuary", "EcoBalance Park", "Nature's Hope Zoo",
+			"Earth's Legacy Conservation Park", "Wildlife Harmony Sanctuary", "EcoPromise Park", "Nature's Vision Zoo"
+		],
+		"Safari Parks": [
+			"Savanna Safari Park", "Jungle Adventure Zoo", "Wild Plains Safari", "Desert Oasis Safari Park",
+			"African Horizon Safari", "Rainforest Expedition Zoo", "Grassland Safari Park", "Mountain Trail Safari",
+			"Savanna Plains Zoo", "Jungle Trek Safari Park", "Wild Horizon Safari", "Desert Mirage Zoo",
+			"African Safari Park", "Rainforest Journey Zoo", "Grassland Adventure Safari", "Mountain Ridge Safari Park",
+			"Savanna Expedition Zoo", "Jungle Horizon Safari", "Wild Plains Zoo", "Desert Safari Park"
+		],
+		"Aquatic Zoos": [
+			"Oceanic Wonders Zoo", "Coral Reef Sanctuary", "Marine Life Park", "AquaWorld Zoo",
+			"Deep Blue Sanctuary", "Sea Life Adventure Park", "Aquatic Oasis Zoo", "Marine Wonders Sanctuary",
+			"Oceanic Horizon Zoo", "Coral Haven Park", "Marine Discovery Zoo", "AquaSphere Sanctuary",
+			"Deep Sea Adventure Park", "Sea Oasis Zoo", "Aquatic Harmony Sanctuary", "Marine Horizon Park",
+			"Oceanic Discovery Zoo", "Coral Oasis Sanctuary", "Marine Life Adventure Park", "AquaVision Zoo"
+		]
+	},
+	"Enclosure": {
+		"Aviaries": [
+			"Tropical Aviary", "Temperate Aviary", "Desert Aviary", "Rainforest Aviary",
+			"Coastal Aviary", "Mountain Aviary", "Wetland Aviary", "Savanna Aviary",
+			"Forest Aviary", "Arctic Aviary", "Subarctic Aviary", "Alpine Aviary",
+			"Grassland Aviary", "Urban Aviary", "Riparian Aviary", "Island Aviary",
+			"Mediterranean Aviary", "Tundra Aviary", "Taiga Aviary", "Mangrove Aviary"
+		],
+		"Aquariums": [
+			"Freshwater Aquarium", "Saltwater Aquarium", "Reef Aquarium", "Coral Aquarium",
+			"Tropical Aquarium", "Temperate Aquarium", "Coldwater Aquarium", "Brackish Aquarium",
+			"River Aquarium", "Lake Aquarium", "Pond Aquarium", "Stream Aquarium",
+			"Ocean Aquarium", "Deep Sea Aquarium", "Coastal Aquarium", "Estuary Aquarium",
+			"Lagoon Aquarium", "Mangrove Aquarium", "Wetland Aquarium", "Kelp Forest Aquarium"
+		],
+		"Terrariums": [
+			"Desert Terrarium", "Rainforest Terrarium", "Temperate Terrarium", "Tropical Terrarium",
+			"Grassland Terrarium", "Mountain Terrarium", "Wetland Terrarium", "Savanna Terrarium",
+			"Forest Terrarium", "Arctic Terrarium", "Subarctic Terrarium", "Alpine Terrarium",
+			"Urban Terrarium", "Riparian Terrarium", "Island Terrarium", "Mediterranean Terrarium",
+			"Tundra Terrarium", "Taiga Terrarium", "Mangrove Terrarium", "Cave Terrarium"
+		],
+		"Vivariums": [
+			"Amphibian Vivarium", "Reptile Vivarium", "Insect Vivarium", "Arachnid Vivarium",
+			"Fish Vivarium", "Mammal Vivarium", "Bird Vivarium", "Invertebrate Vivarium",
+			"Plant Vivarium", "Fungus Vivarium", "Microbial Vivarium", "Aquatic Vivarium",
+			"Terrestrial Vivarium", "Arboreal Vivarium", "Fossorial Vivarium", "Nocturnal Vivarium",
+			"Diurnal Vivarium", "Carnivorous Vivarium", "Herbivorous Vivarium", "Omnivorous Vivarium"
+		],
+		"Zoo Enclosures": [
+			"Savannah Enclosure", "Jungle Enclosure", "Desert Enclosure", "Arctic Enclosure",
+			"Aquatic Enclosure", "Forest Enclosure", "Grassland Enclosure", "Mountain Enclosure",
+			"Wetland Enclosure", "Coastal Enclosure", "Island Enclosure", "Urban Enclosure",
+			"Riparian Enclosure", "Mediterranean Enclosure", "Tundra Enclosure", "Taiga Enclosure",
+			"Mangrove Enclosure", "Cave Enclosure", "Nocturnal Enclosure", "Diurnal Enclosure"
+		]
+	},
+	"Animal": {
+		"Big Cats": [
+			"Lion", "Tiger", "Leopard", "Jaguar",
+			"Cheetah", "Cougar", "Snow Leopard", "Clouded Leopard",
+			"Lynx", "Bobcat", "Caracal", "Serval",
+			"Ocelot", "Puma", "Panther", "Mountain Lion",
+			"Tiger Shark", "Lionfish", "Tiger Beetle", "Tiger Moth"
+		],
+		"Primates": [
+			"Gorilla", "Chimpanzee", "Orangutan", "Bonobo",
+			"Baboon", "Macaque", "Lemur", "Tarsier",
+			"Gibbon", "Marmoset", "Tamarin", "Capuchin",
+			"Howler Monkey", "Spider Monkey", "Squirrel Monkey", "Colobus Monkey",
+			"Langur", "Mandrill", "Guenon", "Vervet Monkey"
+		],
+		"Birds of Prey": [
+			"Eagle", "Hawk", "Falcon", "Owl",
+			"Vulture", "Kite", "Harrier", "Osprey",
+			"Buzzard", "Secretary Bird", "Caracara", "Goshawk",
+			"Peregrine Falcon", "Red-Tailed Hawk", "Bald Eagle", "Golden Eagle",
+			"Barn Owl", "Snowy Owl", "Great Horned Owl", "Screech Owl"
+		],
+		"Reptiles": [
+			"Crocodile", "Alligator", "Snake", "Lizard",
+			"Turtle", "Tortoise", "Iguana", "Chameleon",
+			"Gecko", "Komodo Dragon", "Anaconda", "Boa Constrictor",
+			"Python", "Cobra", "Rattlesnake", "Gila Monster",
+			"Skink", "Tuatara", "Sea Turtle", "Galapagos Tortoise"
+		],
+		"Marine Life": [
+			"Shark", "Dolphin", "Whale", "Octopus",
+			"Squid", "Jellyfish", "Clownfish", "Angelfish",
+			"Goldfish", "Salmon", "Tuna", "Cod",
+			"Trout", "Catfish", "Bass", "Pike",
+			"Stingray", "Seahorse", "Eel", "Barracuda"
+		]
+	},
+	"Bone": {
+		"Skull Bones": [
+			"Frontal Bone", "Parietal Bone", "Temporal Bone", "Occipital Bone",
+			"Sphenoid Bone", "Ethmoid Bone", "Nasal Bone", "Zygomatic Bone",
+			"Maxilla", "Mandible", "Lacrimal Bone", "Palatine Bone",
+			"Inferior Nasal Concha", "Vomer", "Hyoid Bone", "Auditory Ossicles",
+			"Malleus", "Incus", "Stapes", "Sutures"
+		],
+		"Vertebral Column": [
+			"Cervical Vertebrae", "Thoracic Vertebrae", "Lumbar Vertebrae", "Sacrum",
+			"Coccyx", "Atlas", "Axis", "Intervertebral Discs",
+			"Spinous Process", "Transverse Process", "Vertebral Foramen", "Lamina",
+			"Pedicle", "Facet Joints", "Sacral Foramina", "Coccygeal Cornua",
+			"Anterior Longitudinal Ligament", "Posterior Longitudinal Ligament", "Ligamentum Flavum", "Supraspinous Ligament"
+		],
+		"Rib Cage": [
+			"True Ribs", "False Ribs", "Floating Ribs", "Sternum",
+			"Manubrium", "Body of Sternum", "Xiphoid Process", "Costal Cartilage",
+			"Costal Margin", "Intercostal Spaces", "Thoracic Vertebrae", "Clavicle",
+			"Scapula", "Costovertebral Joints", "Costotransverse Joints", "Sternal Angle",
+			"Suprasternal Notch", "Infrasternal Angle", "Subcostal Margin", "Costal Groove"
+		],
+		"Arm Bones": [
+			"Humerus", "Radius", "Ulna", "Carpals",
+			"Metacarpals", "Phalanges", "Scapula", "Clavicle",
+			"Glenoid Cavity", "Acromion", "Coracoid Process", "Olecranon",
+			"Radial Head", "Ulnar Styloid Process", "Radial Styloid Process", "Capitulum",
+			"Trochlea", "Medial Epicondyle", "Lateral Epicondyle", "Coronoid Process"
+		],
+		"Leg Bones": [
+			"Femur", "Tibia", "Fibula", "Patella",
+			"Tarsals", "Metatarsals", "Phalanges", "Pelvis",
+			"Ilium", "Ischium", "Pubis", "Acetabulum",
+			"Greater Trochanter", "Lesser Trochanter", "Medial Malleolus", "Lateral Malleolus",
+			"Tibial Tuberosity", "Fibular Head", "Calcaneus", "Talus"
+		]
+	},
+	"School": {
+		"Elementary Schools": [
+			"Sunrise Elementary", "Maplewood Primary", "Green Valley Elementary", "Pinecrest Academy",
+			"Oakridge Elementary", "Willow Creek School", "Brookside Elementary", "Hillside Primary",
+			"Riverbend Elementary", "Cedar Grove School", "Meadowbrook Elementary", "Forest Hills Primary",
+			"Bright Horizons Academy", "Golden Gate Elementary", "Silverlake School", "Starlight Elementary",
+			"Oceanview Primary", "Mountain View Elementary", "Sunset Ridge School", "Harmony Elementary"
+		],
+		"Middle Schools": [
+			"Summit Middle School", "Horizon Middle School", "Pine Valley Academy", "Crestwood Middle School",
+			"Riverside Middle School", "Woodland Middle School", "Highland Middle School", "Lakeview Academy",
+			"Sunnybrook Middle School", "Greenfield Middle School", "Brookside Middle School", "Hillside Academy",
+			"Maplewood Middle School", "Oakridge Middle School", "Willow Creek Academy", "Meadowbrook Middle School",
+			"Forest Hills Middle School", "Golden Gate Middle School", "Silverlake Academy", "Starlight Middle School"
+		],
+		"High Schools": [
+			"Sunrise High School", "Maplewood High", "Green Valley Academy", "Pinecrest High School",
+			"Oakridge High School", "Willow Creek High", "Brookside High School", "Hillside Academy",
+			"Riverbend High School", "Cedar Grove High", "Meadowbrook High School", "Forest Hills Academy",
+			"Bright Horizons High", "Golden Gate High School", "Silverlake High", "Starlight Academy",
+			"Oceanview High School", "Mountain View High", "Sunset Ridge Academy", "Harmony High School"
+		],
+		"Colleges": [
+			"Summit College", "Horizon University", "Pine Valley Institute", "Crestwood College",
+			"Riverside University", "Woodland College", "Highland Institute", "Lakeview University",
+			"Sunnybrook College", "Greenfield University", "Brookside Institute", "Hillside College",
+			"Maplewood University", "Oakridge College", "Willow Creek Institute", "Meadowbrook University",
+			"Forest Hills College", "Golden Gate Institute", "Silverlake University", "Starlight College"
+		],
+		"Universities": [
+			"Sunrise University", "Maplewood Institute", "Green Valley University", "Pinecrest Academy",
+			"Oakridge University", "Willow Creek University", "Brookside Institute", "Hillside University",
+			"Riverbend University", "Cedar Grove Institute", "Meadowbrook University", "Forest Hills Academy",
+			"Bright Horizons University", "Golden Gate Institute", "Silverlake University", "Starlight Academy",
+			"Oceanview University", "Mountain View Institute", "Sunset Ridge University", "Harmony Academy"
+		]
+	},
+	"Classroom": {
+		"Science Labs": [
+			"Biology Lab", "Chemistry Lab", "Physics Lab", "Earth Science Lab",
+			"Astronomy Lab", "Environmental Science Lab", "Geology Lab", "Meteorology Lab",
+			"Oceanography Lab", "Paleontology Lab", "Ecology Lab", "Genetics Lab",
+			"Microbiology Lab", "Biochemistry Lab", "Biophysics Lab", "Astrophysics Lab",
+			"Quantum Mechanics Lab", "Thermodynamics Lab", "Organic Chemistry Lab", "Inorganic Chemistry Lab"
+		],
+		"Art Studios": [
+			"Drawing Studio", "Painting Studio", "Sculpture Studio", "Photography Studio",
+			"Printmaking Studio", "Ceramics Studio", "Textiles Studio", "Digital Art Studio",
+			"Graphic Design Studio", "Illustration Studio", "Animation Studio", "Film Studio",
+			"Theater Studio", "Dance Studio", "Music Studio", "Architecture Studio",
+			"Fashion Design Studio", "Interior Design Studio", "Industrial Design Studio", "Art History Studio"
+		],
+		"Computer Labs": [
+			"Programming Lab", "Web Development Lab", "Data Science Lab", "Cybersecurity Lab",
+			"Artificial Intelligence Lab", "Machine Learning Lab", "Robotics Lab", "Game Development Lab",
+			"Multimedia Lab", "Networking Lab", "Database Lab", "Software Engineering Lab",
+			"Hardware Lab", "Virtual Reality Lab", "Augmented Reality Lab", "Cloud Computing Lab",
+			"Mobile App Development Lab", "UI/UX Design Lab", "Big Data Lab", "Blockchain Lab"
+		],
+		"Language Labs": [
+			"English Lab", "Spanish Lab", "French Lab", "German Lab",
+			"Chinese Lab", "Japanese Lab", "Russian Lab", "Arabic Lab",
+			"Italian Lab", "Portuguese Lab", "Latin Lab", "Greek Lab",
+			"Sign Language Lab", "Linguistics Lab", "Translation Lab", "Interpretation Lab",
+			"Creative Writing Lab", "Literature Lab", "Poetry Lab", "Drama Lab"
+		],
+		"History Rooms": [
+			"Ancient History Room", "Medieval History Room", "Modern History Room", "World History Room",
+			"American History Room", "European History Room", "Asian History Room", "African History Room",
+			"Middle Eastern History Room", "Latin American History Room", "Art History Room", "Military History Room",
+			"Political History Room", "Economic History Room", "Social History Room", "Cultural History Room",
+			"Religious History Room", "Intellectual History Room", "Environmental History Room", "Historiography Room"
+		]
+	},
+	"Backpack": {
+		"Hiking Backpacks": [
+			"Osprey", "Deuter", "Gregory", "Arc'teryx",
+			"The North Face", "Kelty", "REI Co-op", "Mountain Hardwear",
+			"Black Diamond", "Patagonia", "Columbia", "Marmot",
+			"Salomon", "Lowe Alpine", "Fjällräven", "Jack Wolfskin",
+			"Vaude", "Eagle Creek", "Teton Sports", "Granite Gear"
+		],
+		"School Backpacks": [
+			"JanSport", "Herschel", "Eastpak", "Fjällräven Kånken",
+			"North Face", "Adidas", "Nike", "Under Armour",
+			"Puma", "SwissGear", "High Sierra", "Kipling",
+			"L.L.Bean", "Targus", "Samsonite", "Dakine",
+			"Burton", "Quiksilver", "Billabong", "Roxy"
+		],
+		"Travel Backpacks": [
+			"Osprey", "Deuter", "Eagle Creek", "Tortuga",
+			"Peak Design", "Aer", "Nomatic", "Pacsafe",
+			"Tom Bihn", "Cotopaxi", "Patagonia", "Arc'teryx",
+			"Kelty", "REI Co-op", "Mountain Hardwear", "Black Diamond",
+			"Gregory", "Thule", "Fjällräven", "Jack Wolfskin"
+		],
+		"Laptop Backpacks": [
+			"Targus", "SwissGear", "Samsonite", "Dell",
+			"HP", "Lenovo", "Microsoft", "AmazonBasics",
+			"Case Logic", "Incase", "Booq", "Brenthaven",
+			"Wenger", "Kensington", "Everki", "Timbuk2",
+			"WaterField Designs", "Rains", "Côte&Ciel", "Knomo"
+		],
+		"Daypacks": [
+			"Osprey", "Deuter", "Gregory", "Arc'teryx",
+			"The North Face", "Kelty", "REI Co-op", "Mountain Hardwear",
+			"Black Diamond", "Patagonia", "Columbia", "Marmot",
+			"Salomon", "Lowe Alpine", "Fjällräven", "Jack Wolfskin",
+			"Vaude", "Eagle Creek", "Teton Sports", "Granite Gear"
+		]
+	},
+	"Stationery": {
+		"Writing Instruments": [
+			"Pens", "Pencils", "Markers", "Highlighters",
+			"Erasers", "Rulers", "Scissors", "Glue",
+			"Tape", "Stapler", "Staples", "Paper Clips",
+			"Push Pins", "Thumb Tacks", "Sticky Notes", "Index Cards",
+			"Folders", "Binders", "Notebooks", "Planners"
+		],
+		"Paper Products": [
+			"Notebooks", "Journals", "Planners", "Sketchbooks",
+			"Printer Paper", "Construction Paper", "Cardstock", "Tissue Paper",
+			"Wrapping Paper", "Greeting Cards", "Postcards", "Envelopes",
+			"Stickers", "Labels", "Tabs", "Dividers",
+			"Index Cards", "Sticky Notes", "Graph Paper", "Tracing Paper"
+		],
+		"Art Supplies": [
+			"Paints", "Brushes", "Canvas", "Easels",
+			"Clay", "Sculpting Tools", "Drawing Pencils", "Charcoal",
+			"Pastels", "Markers", "Colored Pencils", "Crayons",
+			"Glue", "Tape", "Scissors", "Rulers",
+			"Stencils", "Templates", "Palettes", "Sponges"
+		],
+		"Office Supplies": [
+			"Stapler", "Staples", "Paper Clips", "Push Pins",
+			"Thumb Tacks", "Sticky Notes", "Index Cards", "Folders",
+			"Binders", "Notebooks", "Planners", "Tape",
+			"Glue", "Scissors", "Rulers", "Erasers",
+			"Highlighters", "Markers", "Pens", "Pencils"
+		],
+		"Storage": [
+			"Folders", "Binders", "Notebooks", "Planners",
+			"Boxes", "Bins", "Drawers", "Cabinets",
+			"Shelves", "Crates", "Baskets", "Totes",
+			"Backpacks", "Briefcases", "Lunchboxes", "Pencil Cases",
+			"Desk Organizers", "File Cabinets", "Storage Cubes", "Portfolios"
+		]
+	},
+	"Ecosystems": {
+		"Forest": [
+			"Tropical Rainforest", "Temperate Forest", "Boreal Forest", "Deciduous Forest",
+			"Coniferous Forest", "Mixed Forest", "Cloud Forest", "Mangrove Forest",
+			"Montane Forest", "Subalpine Forest", "Alpine Forest", "Riparian Forest",
+			"Flooded Forest", "Dry Forest", "Mediterranean Forest", "Taiga",
+			"Elfin Forest", "Pine Forest", "Oak Forest", "Beech Forest"
+		],
+		"Desert": [
+			"Hot Desert", "Cold Desert", "Sandy Desert", "Rocky Desert",
+			"Salt Desert", "Dune Desert", "Plateau Desert", "Mountain Desert",
+			"Coastal Desert", "Polar Desert", "Semi-Arid Desert", "Arid Desert",
+			"Hyper-Arid Desert", "Subtropical Desert", "Temperate Desert", "Rain Shadow Desert",
+			"Interior Desert", "Basin Desert", "Playas", "Badlands"
+		],
+		"Grassland": [
+			"Tropical Grassland", "Temperate Grassland", "Savanna", "Steppe",
+			"Prairie", "Pampas", "Veld", "Meadow",
+			"Pasture", "Rangeland", "Shrubland", "Heathland",
+			"Tundra", "Alpine Meadow", "Flooded Grassland", "Montane Grassland",
+			"Subalpine Grassland", "Coastal Grassland", "Desert Grassland", "Wet Meadow"
+		],
+		"Wetland": [
+			"Swamp", "Marsh", "Bog", "Fen",
+			"Peatland", "Mire", "Wet Meadow", "Floodplain",
+			"Riparian Zone", "Estuary", "Delta", "Lagoon",
+			"Mangrove", "Salt Marsh", "Freshwater Marsh", "Tidal Marsh",
+			"Vernal Pool", "Pothole", "Quaking Bog", "String Bog"
+		],
+		"Aquatic": [
+			"Ocean", "Sea", "Lake", "River",
+			"Pond", "Stream", "Creek", "Estuary",
+			"Lagoon", "Wetland", "Coral Reef", "Kelp Forest",
+			"Mangrove", "Salt Marsh", "Freshwater Marsh", "Tidal Marsh",
+			"Vernal Pool", "Pothole", "Quaking Bog", "String Bog"
+		]
+	},
+	"Creatures": {
+		"Mammals": [
+			"Lion", "Tiger", "Elephant", "Giraffe",
+			"Zebra", "Gorilla", "Chimpanzee", "Panda",
+			"Kangaroo", "Koala", "Rhino", "Hippo",
+			"Polar Bear", "Grizzly Bear", "Wolf", "Fox",
+			"Deer", "Moose", "Bison", "Camel"
+		],
+		"Birds": [
+			"Eagle", "Owl", "Parrot", "Penguin",
+			"Flamingo", "Peacock", "Swan", "Crane",
+			"Albatross", "Pelican", "Stork", "Heron",
+			"Vulture", "Hawk", "Falcon", "Ostrich",
+			"Emu", "Cassowary", "Kiwi", "Toucan"
+		],
+		"Reptiles": [
+			"Crocodile", "Alligator", "Snake", "Lizard",
+			"Turtle", "Tortoise", "Iguana", "Chameleon",
+			"Gecko", "Komodo Dragon", "Anaconda", "Boa Constrictor",
+			"Python", "Cobra", "Rattlesnake", "Gila Monster",
+			"Skink", "Tuatara", "Sea Turtle", "Galapagos Tortoise"
+		],
+		"Amphibians": [
+			"Frog", "Toad", "Salamander", "Newt",
+			"Caecilian", "Axolotl", "Tree Frog", "Poison Dart Frog",
+			"Bullfrog", "Fire Salamander", "Mudpuppy", "Olm",
+			"Surinam Toad", "Glass Frog", "Hellbender", "Giant Salamander",
+			"Spadefoot Toad", "Marbled Salamander", "Red-Eyed Tree Frog", "African Clawed Frog"
+		],
+		"Fish": [
+			"Shark", "Dolphin", "Whale", "Octopus",
+			"Squid", "Jellyfish", "Clownfish", "Angelfish",
+			"Goldfish", "Salmon", "Tuna", "Cod",
+			"Trout", "Catfish", "Bass", "Pike",
+			"Stingray", "Seahorse", "Eel", "Barracuda"
+		]
+	},
+	"Organs": {
+		"Brain": [
+			"Cerebrum", "Cerebellum", "Brainstem", "Thalamus",
+			"Hypothalamus", "Pituitary Gland", "Pineal Gland", "Amygdala",
+			"Hippocampus", "Basal Ganglia", "Corpus Callosum", "Medulla Oblongata",
+			"Pons", "Midbrain", "Olfactory Bulb", "Ventricles",
+			"Spinal Cord", "Cranial Nerves", "Meninges", "Cerebrospinal Fluid"
+		],
+		"Heart": [
+			"Atria", "Ventricles", "Aorta", "Pulmonary Artery",
+			"Pulmonary Veins", "Coronary Arteries", "Coronary Veins", "Valves",
+			"Septum", "Pericardium", "Myocardium", "Endocardium",
+			"Cardiac Muscle", "Sinoatrial Node", "Atrioventricular Node", "Bundle of His",
+			"Purkinje Fibers", "Chordae Tendineae", "Papillary Muscles", "Cardiac Conduction System"
+		],
+		"Lungs": [
+			"Bronchi", "Bronchioles", "Alveoli", "Trachea",
+			"Pleura", "Diaphragm", "Lobes", "Pulmonary Capillaries",
+			"Pulmonary Veins", "Pulmonary Arteries", "Respiratory Bronchioles", "Terminal Bronchioles",
+			"Alveolar Ducts", "Alveolar Sacs", "Respiratory Membrane", "Surfactant",
+			"Intercostal Muscles", "Pleural Cavity", "Thoracic Cavity", "Mediastinum"
+		],
+		"Liver": [
+			"Hepatocytes", "Bile Ducts", "Gallbladder", "Portal Vein",
+			"Hepatic Artery", "Hepatic Vein", "Lobules", "Sinusoids",
+			"Kupffer Cells", "Bile Canaliculi", "Hepatic Lobes", "Hepatic Segments",
+			"Common Bile Duct", "Cystic Duct", "Hepatic Duct", "Biliary Tree",
+			"Hepatic Sinusoids", "Hepatic Plates", "Hepatic Stellate Cells", "Hepatic Portal System"
+		],
+		"Kidneys": [
+			"Nephrons", "Glomerulus", "Renal Tubule", "Renal Cortex",
+			"Renal Medulla", "Renal Pelvis", "Ureter", "Bladder",
+			"Urethra", "Renal Artery", "Renal Vein", "Bowman's Capsule",
+			"Proximal Tubule", "Loop of Henle", "Distal Tubule", "Collecting Duct",
+			"Renal Pyramid", "Renal Column", "Renal Capsule", "Renal Sinus"
+		]
+	},
+	"Cells": {
+		"Blood Cells": [
+			"Red Blood Cells", "White Blood Cells", "Platelets", "Lymphocytes",
+			"Monocytes", "Neutrophils", "Eosinophils", "Basophils",
+			"Macrophages", "Dendritic Cells", "Natural Killer Cells", "T Cells",
+			"B Cells", "Plasma Cells", "Mast Cells", "Megakaryocytes",
+			"Reticulocytes", "Erythroblasts", "Myeloblasts", "Lymphoblasts"
+		],
+		"Nerve Cells": [
+			"Neurons", "Glial Cells", "Astrocytes", "Oligodendrocytes",
+			"Microglia", "Schwann Cells", "Ependymal Cells", "Sensory Neurons",
+			"Motor Neurons", "Interneurons", "Bipolar Neurons", "Multipolar Neurons",
+			"Unipolar Neurons", "Pyramidal Cells", "Purkinje Cells", "Granule Cells",
+			"Stellate Cells", "Horizontal Cells", "Amacrine Cells", "Mitral Cells"
+		],
+		"Muscle Cells": [
+			"Skeletal Muscle Cells", "Cardiac Muscle Cells", "Smooth Muscle Cells", "Myocytes",
+			"Myoblasts", "Myotubes", "Satellite Cells", "Myofibers",
+			"Muscle Spindles", "Tendon Cells", "Ligament Cells", "Fascia Cells",
+			"Perimysium", "Endomysium", "Epimysium", "Sarcomeres",
+			"Myofibrils", "Actin", "Myosin", "Troponin"
+		],
+		"Epithelial Cells": [
+			"Squamous Cells", "Cuboidal Cells", "Columnar Cells", "Transitional Cells",
+			"Keratinocytes", "Melanocytes", "Merkel Cells", "Langerhans Cells",
+			"Goblet Cells", "Ciliated Cells", "Basal Cells", "Endothelial Cells",
+			"Mesothelial Cells", "Pneumocytes", "Enterocytes", "Hepatocytes",
+			"Nephrocytes", "Adipocytes", "Fibroblasts", "Chondrocytes"
+		],
+		"Stem Cells": [
+			"Embryonic Stem Cells", "Adult Stem Cells", "Induced Pluripotent Stem Cells", "Hematopoietic Stem Cells",
+			"Mesenchymal Stem Cells", "Neural Stem Cells", "Epithelial Stem Cells", "Endothelial Stem Cells",
+			"Cardiac Stem Cells", "Muscle Stem Cells", "Bone Marrow Stem Cells", "Umbilical Cord Stem Cells",
+			"Placental Stem Cells", "Adipose Stem Cells", "Dental Stem Cells", "Skin Stem Cells",
+			"Liver Stem Cells", "Pancreatic Stem Cells", "Retinal Stem Cells", "Germline Stem Cells"
+		]
+	}
+}
