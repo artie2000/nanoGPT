@@ -512,7 +512,7 @@ def DrawAll(op_max, ip_max, force):
             topo = DrawNecessary2(G_n)
             if topo == None : continue
         
-        if topo == None : continue # failed 1000 times
+        if G_n == None or topo == None : continue # failed 1000 times
         DrawNecessary3(G_n, topo, s)
         if G_n != None : break # success
     
@@ -533,4 +533,4 @@ def iGSM_med_train_gen():
 
 # test - iGSM-med training data
 for c in iGSM_med_train_gen():
-    pass#print(c, end="")
+    print(c, end="")

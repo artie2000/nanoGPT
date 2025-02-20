@@ -45,7 +45,7 @@
 			"Giant Eagle", "H-E-B", "WinCo Foods", "Food Lion"
 		],
 		"Superstores": [
-			"Superstore", "Asda", "Sainsbury's", "Morrisons",
+			"Superstore", "Asda", "Sainsburys", "Morrisons",
 			"Waitrose", "Aldi", "Lidl", "Coles",
 			"Woolworths", "Big W", "Kmart", "Fred Meyer",
 			"Food 4 Less", "Safeway", "Vons", "Ralphs",
@@ -55,15 +55,15 @@
 			"Dollar General", "Family Dollar", "Dollar Tree", "Five Below",
 			"Big Lots", "99 Cents Only Stores", "Aldi", "Lidl",
 			"Save-A-Lot", "Price Chopper", "Price Rite", "Market Basket",
-			"WinCo Foods", "Grocery Outlet", "Trader Joe's", "ALDI Nord",
+			"WinCo Foods", "Grocery Outlet", "Trader Joes", "ALDI Nord",
 			"Netto", "Penny Market", "Norma", "Eurospin"
 		],
 		"Specialty Stores": [
-			"Whole Foods Market", "Trader Joe's", "Sprouts Farmers Market", "The Fresh Market",
+			"Whole Foods Market", "Trader Joes", "Sprouts Farmers Market", "The Fresh Market",
 			"Natural Grocers", "Earth Fare", "Publix GreenWise", "Wegmans",
-			"Bristol Farms", "Gelson's", "New Seasons Market", "Central Market",
-			"Metropolitan Market", "Mariano's", "Jungle Jim's", "Stew Leonard's",
-			"Fairway Market", "Zupan's Markets", "Balducci's", "Dean & DeLuca"
+			"Bristol Farms", "Gelsons", "New Seasons Market", "Central Market",
+			"Metropolitan Market", "Marianos", "Jungle Jims", "Stew Leonards",
+			"Fairway Market", "Zupans Markets", "Balduccis", "Dean & DeLuca"
 		],
 		"Online Grocers": [
 			"Amazon Fresh", "Instacart", "Walmart Grocery", "Peapod",
@@ -158,16 +158,16 @@
 		"Wildlife Sanctuaries": [
 			"Green Valley Sanctuary", "Forest Haven Wildlife Park", "Mountain Ridge Sanctuary", "Sunset Plains Zoo",
 			"Wilderness Refuge", "Golden Horizon Sanctuary", "Eco Valley Wildlife Park", "Blue Sky Sanctuary",
-			"Nature's Haven Zoo", "Green Meadows Sanctuary", "Forest Edge Wildlife Park", "Mountain Peak Sanctuary",
+			"Natures Haven Zoo", "Green Meadows Sanctuary", "Forest Edge Wildlife Park", "Mountain Peak Sanctuary",
 			"Sunset Ridge Zoo", "Wilderness Oasis", "Golden Plains Sanctuary", "Eco Haven Wildlife Park",
-			"Blue Horizon Sanctuary", "Nature's Edge Zoo", "Green Ridge Wildlife Park", "Forest Peak Sanctuary"
+			"Blue Horizon Sanctuary", "Natures Edge Zoo", "Green Ridge Wildlife Park", "Forest Peak Sanctuary"
 		],
 		"Conservation Parks": [
-			"Earth's Haven Conservation Park", "Wildlife Preservation Zoo", "EcoSphere Sanctuary", "Nature's Legacy Park",
-			"Green Earth Conservation Zoo", "Wildlife Harmony Park", "EcoVision Sanctuary", "Nature's Balance Zoo",
-			"Earth's Oasis Conservation Park", "Wildlife Guardians Sanctuary", "EcoHarmony Park", "Nature's Promise Zoo",
-			"Green Horizon Conservation Park", "Wildlife Unity Sanctuary", "EcoBalance Park", "Nature's Hope Zoo",
-			"Earth's Legacy Conservation Park", "Wildlife Harmony Sanctuary", "EcoPromise Park", "Nature's Vision Zoo"
+			"Earths Haven Conservation Park", "Wildlife Preservation Zoo", "EcoSphere Sanctuary", "Natures Legacy Park",
+			"Green Earth Conservation Zoo", "Wildlife Harmony Park", "EcoVision Sanctuary", "Natures Balance Zoo",
+			"Earths Oasis Conservation Park", "Wildlife Guardians Sanctuary", "EcoHarmony Park", "Natures Promise Zoo",
+			"Green Horizon Conservation Park", "Wildlife Unity Sanctuary", "EcoBalance Park", "Natures Hope Zoo",
+			"Earths Legacy Conservation Park", "Wildlife Harmony Sanctuary", "EcoPromise Park", "Natures Vision Zoo"
 		],
 		"Safari Parks": [
 			"Savanna Safari Park", "Jungle Adventure Zoo", "Wild Plains Safari", "Desert Oasis Safari Park",
@@ -549,7 +549,7 @@
 		"Kidneys": [
 			"Nephrons", "Glomerulus", "Renal Tubule", "Renal Cortex",
 			"Renal Medulla", "Renal Pelvis", "Ureter", "Bladder",
-			"Urethra", "Renal Artery", "Renal Vein", "Bowman's Capsule",
+			"Urethra", "Renal Artery", "Renal Vein", "Bowmans Capsule",
 			"Proximal Tubule", "Loop of Henle", "Distal Tubule", "Collecting Duct",
 			"Renal Pyramid", "Renal Column", "Renal Capsule", "Renal Sinus"
 		]
