@@ -111,6 +111,22 @@ device_type = 'cuda' if 'cuda' in device else 'cpu' # for later use in torch.aut
 ptdtype = {'float32': torch.float32, 'bfloat16': torch.bfloat16, 'float16': torch.float16}[dtype]
 ctx = nullcontext() if device_type == 'cpu' else torch.amp.autocast(device_type=device_type, dtype=ptdtype)
 
+# stream-based data loader
+class IterableDatasetSynthetic(torch.utils.data.IterableDataset):
+    fn = None # function that returns a generator yielding a chunk of data
+
+    def __init__(self, fn):
+        super(IterableDatasetSynthetic).__init__()
+        self.fn = fn
+
+    def __iter__(self):
+        def ret():
+            while True:
+                yield from self.fn()
+        return ret()
+
+# TODO : pipe IterableDatasetSynthetic into below data loader
+
 # poor man's data loader
 data_dir = os.path.join('data', dataset)
 def get_batch(split):

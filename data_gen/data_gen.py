@@ -3,6 +3,8 @@ import random as r
 import math
 from collections import namedtuple
 import json
+import string
+import time
 
 f = open("nanoGPT/data_gen/world_knowledge.json")
 world_knowledge = list(json.load(f).items())
@@ -21,7 +23,7 @@ def DrawStructure(e, d, w0, w1):
     p = r.uniform(0,1)
 
     # generate vertex counts
-    while max(l) != w1:
+    while min(l) != w1:
         if sum([l[i] * l[i+1] for i in range(d-1)]) < e:
             l[r.randrange(d)] += 1
         elif e == sum([l[i] for i in range(d-1)]): break
@@ -34,7 +36,7 @@ def DrawStructure(e, d, w0, w1):
     [G[i-1][r.randrange(l[i-1])].add(j) for i in range(1,d) for j in range(l[i])]
 
     # add extra edges
-    e_cur = sum([l[i] for i in range(d-1)])
+    e_cur = sum([l[i] for i in range(1,d)])
     while e_cur < e:
         i = r.randrange(0,d-1)
         a = r.randrange(l[i])
@@ -48,17 +50,18 @@ def DrawStructure(e, d, w0, w1):
 # given structure graph G_s, parameters encoded as follows:
 # instance parameter : (layer l, index i, child j) [number of (l+1,j) in parent (l,i)]
 # abstract parameter : (layer l, index i, diff k) [number of layer l+k in (l,i)]
+# val, op_type, bin_op_type params are for word problem construction
 
-InstParam = namedtuple('InstParam', ['layer', 'index', 'child', 'type'], defaults = ('inst',))
-AbsParam = namedtuple('AbsParam', ['layer', 'index', 'diff', 'type'], defaults = ('abs',))
-RNGParam = namedtuple('RNGParam', ['type'], defaults = ('rng',))
+InstParam = namedtuple("InstParam", ["layer", "index", "child", "type"], defaults = ("inst",))
+AbsParam = namedtuple("AbsParam", ["layer", "index", "diff", "type"], defaults = ("abs",))
+RNGParam = namedtuple("RNGParam", ["type"], defaults = ("rng",))
 
 # dependency graph : dictionary (parameter -> set of parents)
 
 # G_n : dependency graph
 # return : operation count of G_n
 def OperationCount(G_n):
-    return sum([max(len(G_n[p])-1,1) for p in G_n if p.type != 'rng'])
+    return sum([max(len(G_n[p])-1,1) for p in G_n if p.type != "rng"])
 
 # G_n : dependency graph
 # G_s : structure graph
@@ -68,6 +71,9 @@ def OperationCount(G_n):
 # augments G_n with all parameters necessary for p as well as their dependency edges
 # return : remaining operations budget (or -1 on failure)
 def AddAbstractParam(G_n, G_s, p, op_rem = 0, limit_ops = True):
+    if p in G_n :
+        return op_rem
+
     G_n[p] = set()
     children = G_s[p.layer][p.index]
 
@@ -84,7 +90,8 @@ def AddAbstractParam(G_n, G_s, p, op_rem = 0, limit_ops = True):
         # add instance parameters
         inst_child = InstParam(p.layer, p.index, child_index)
         G_n[p].add(inst_child)
-        G_n[inst_child] = set()
+        if inst_child not in G_n:
+            G_n[inst_child] = set()
         
         # recursively add abstract parameters
         if p.diff > 1:
@@ -112,15 +119,16 @@ def DrawNecessary1(G_s, n, m):
     inst = [InstParam(l, j, c) for l in range(d) for j in range(len(G_s[l])) for c in G_s[l][j]]
 
     # add abstract parameters and their edges
-    updated = False
-    while not updated:
+    updated = True
+    while updated:
         updated = False
         for i in range(d-1,0,-1):
             abs_i = [e for e in abs[i-1] if not e in G_n] # abstract parameters of difficulty i not yet added
             if len(abs_i)>0:
                 G_n_copy = G_n.copy()
-                success = AddAbstractParam(G_n_copy, G_s, r.choice(abs_i), op_rem=n)
-                if success >= 0:
+                op_rem = AddAbstractParam(G_n_copy, G_s, r.choice(abs_i), op_rem=n)
+                if op_rem >= 0:
+                    n = op_rem
                     updated = True
                     G_n = G_n_copy
                     break
@@ -160,11 +168,11 @@ def DrawNecessary2(G_n):
 
         # add extra dependencies
         if len(avail_params & next_params) == 0:
-            if next_param.type == 'abs': return None # fail
+            if next_param.type == "abs": return None # fail
             p = PickBiasedRandom(list(avail_params), set())
             G_n[next_param].add(p)
             next_params.add(p)
-        elif next_param.type == 'inst' and r.uniform(0,1) > r.uniform(0,1):
+        elif next_param.type == "inst" and r.uniform(0,1) > r.uniform(0,1):
             p = PickBiasedRandom(list(avail_params), next_params)
             G_n[next_param].add(p)
             next_params.add(p)
@@ -201,6 +209,9 @@ def DrawNecessary3(G_n, topo, s):
     max_op = [min(3,max(1,len(topo)-i-1)) for i in range(len(topo))]
     while sum(cur_op) < s:
         avail_inds = [i for i in range(len(topo)) if topo[i].type == "inst" and cur_op[i] < max_op[i]]
+        if len(avail_inds) == 0:
+            G_n = None
+            return # failure
         cur_op[r.choice(avail_inds)] += 1
 
     for i in range(len(topo)):
@@ -227,10 +238,10 @@ def IsComputableAbs(G_s, params, abs):
         ret = all([IsComputableAbs(G_s, params, AbsParam(abs.layer + 1, j, abs.diff - 1)) for j in G_s[abs.layer][abs.index]])
     return ret and all([InstParam(abs.layer, abs.index, j) in params for j in G_s[abs.layer][abs.index]])
 
-# G_n : dependency graph
 # G_s : structure graph
+# G_n : dependency graph
 # return : G_n with unneccesary dependency edges added
-def DrawUnnecessary(G_n, G_s):
+def DrawUnnecessary(G_s, G_n):
     G_u = G_n.copy()
 
     # enumerate parameters
@@ -274,14 +285,14 @@ def DrawUnnecessary(G_n, G_s):
 # G_s : structure graph
 # world_knowledge = world knowledge (4x4x5x20 array of strings)
 # return : array (layer in G_s) -> (name reference), array (entry in G_s) -> (name reference)
-def AttachName(G_s, world_knowledge):
+def AttachNameData(G_s, world_knowledge):
     d = len(G_s)
     category = r.randint(0,3)
     start_layer = r.randint(0,4-d)
     layer_names = [k for (k,v) in world_knowledge[4*category+start_layer : 4*category+start_layer+d]]
     
     names = [None] * d
-    print(names)
+    
     for i in range(d):
         idx = 4*category+start_layer+i
         name_list = r.choice(list(world_knowledge[idx][1].values()))
@@ -289,26 +300,237 @@ def AttachName(G_s, world_knowledge):
 
     return layer_names, names
 
-# TODO : figure out structure for problem data (for instance params)
 
-def GenProblemData(G_u): return
+# labels : data from AttachNameData
+# p : parameter
+# return : English name of parameter
+def ParamName(labels, p):
+    if p.type == "rng" : return ""
 
-# labels : data from attach_name
+    first = labels[1][p.layer][p.index]
+    if p.type == "inst":
+        second = labels[1][p.layer + 1][p.child]
+    elif p.type == "abs":
+        second = labels[0][p.layer + p.diff]
+    return first + "'s " + second
 
-def GenProblemText(labels, G_u, data): return
+# G_s : structure graph
+# G : dependency graph
+# labels : data from AttachNameData
+# return : dict (parameter -> English name)
+def AttachNames(G_s, G, world_knowledge):
+    data = AttachNameData(G_s, world_knowledge)
+    return {p : ParamName(data, p) for p in G}
 
-def GenSolutionText(labels, G_n, data): return
+# names : data from AttachNames
+# G : dependency graph
+# p : parameter
+# return : English sentence defining p, data about random choices made
+def GenParamProblemText(names, G, p):
+    val, op, bin_op, pool = None, None, None, G[p].copy()
 
-# test
-G_s = DrawStructure(9,3,2,4)
-print(G_s)
-G_n = DrawNecessary1(G_s,10,10)
-print(G_n)
-topo = DrawNecessary2(G_n)
-print(G_n)
-print(topo)
-DrawNecessary3(G_n, topo, 10)
-print(G_n)
-G_u = DrawUnnecessary(G_n, G_s)
-print(G_u)
-print(AttachName(G_s, world_knowledge))
+    out = "The number of each " + names[p] + " equals"
+    for q in pool:
+        if q.type == "rng":
+            val = r.randrange(23)
+            op = r.getrandbits(1)
+            out += " " + str(val)
+            if len(G[p]) > 1:
+                out += (" more than" if op else " times")
+            pool.remove(q)
+            break
+    
+    pool = list(pool)
+    r.shuffle(pool)
+    n = len(pool)
+    if n == 1:
+        out += " each " + names[pool[0]]
+    elif n == 2:
+        bin_op = r.getrandbits(1)
+        out += " the " + ("sum" if bin_op else "difference") + " of each " + names[pool[0]] + " and each " + names[pool[1]]
+    elif n > 2:
+        out += " the sum of "
+        for i in range(n-1):
+            out += "each " + names[pool[i]] + ", "
+        out += "and each " + names[pool[n-1]]
+    out += "."
+
+    return out, (val, op, bin_op, pool)
+
+# names : data from AttachName
+# G : dependency graph
+# query : query parameter
+# return : text for the problem of finding query, dict (parameter -> data about random choices made)
+def GenProblemText(names, G, query):
+    out = {p: GenParamProblemText(names, G, p) for p in G if p.type == "inst"}
+    sentences = [s for s, _ in out.values()]
+    rand_data = ({p: d[i] for p, (_, d) in out.items()} for i in range(4))
+    r.shuffle(sentences)
+
+    # parse query name into question
+    first, second = names[query].split("'s ")
+    sentences.append("How many " + second + " does " + first + " have?")
+
+    return " ".join(sentences), rand_data
+
+# sum_var : the variable for the sum
+# summand_vars : list of summand variables
+# values : list of values of summed variables
+# avail_vars : shuffled list of available variables
+# return : integer sum mod 23, list of clauses for sum computation by binary ops, remaining variables
+def GenSumText(sum_var, summand_vars, values, avail_vars):
+    l = len(summand_vars)
+    clauses = []
+
+    if l == 0:
+        final_val = 0
+        clauses.append(sum_var + " = 0")
+    elif l == 1:
+        final_val = values[0]
+        clauses.append(sum_var + " = " + summand_vars[0] + " = " + str(final_val))
+    else:
+        temp_var = (avail_vars.pop() if l > 2 else sum_var)
+        temp_val = (values[0] + values[1]) % 23
+        clauses.append(temp_var + " = " + summand_vars[0] + " + " + summand_vars[1] + " = " + str(values[0]) + " + " + str(values[1]) + " = " + str(temp_val))
+
+        for i in range(2,l):
+            old_temp_var = temp_var
+            old_temp_val = temp_val
+            temp_var = (avail_vars.pop() if i < l-1  else sum_var)
+            temp_val = (temp_val + values[i]) % 23
+            clauses.append(temp_var + " = " + old_temp_var + " + " + summand_vars[i] + " = " + str(old_temp_val) + " + " + str(values[i]) + " = " + str(temp_val))
+        final_val = temp_val
+
+    return final_val, clauses, avail_vars
+
+# names : data from AttachName
+# rand_data : random data from GenProblemText
+# G : dependency graph
+# topo : list encoding solution as a topological order (query / root is first)
+# return : text for the solution to finding the query
+def GenSolutionText(names, rand_data, G, topo):
+    rng_val, op, bin_op, pool = rand_data
+    avail_vars = [k for k in string.ascii_lowercase + string.ascii_uppercase] # pool of variable names
+    r.shuffle(avail_vars)
+    var_vals = {}
+    param_vars = {}
+
+    l = len(topo)
+    output = ""
+
+    for p in reversed(topo):
+        param_vars[p] = avail_vars.pop()
+        clauses = []
+
+        if p.type == "abs":
+            deps = list(G[p])
+            r.shuffle(deps) # ensure order children are summed over is random
+
+            if p.diff == 1:
+                summand_vars = [param_vars[q] for q in deps]
+            else:
+                summand_vars = []
+                for q in deps:
+                    if q.type == "inst":
+                        temp_var = avail_vars.pop()
+                        summand_vars.append(temp_var)
+                        var0, var1 = param_vars[q], param_vars[AbsParam(q.layer + 1, q.child, p.diff - 1)]
+                        var_vals[temp_var] = (var_vals[var0] * var_vals[var1]) % 23
+                        clauses.append(temp_var + " = " + var0 + " * " + var1 + " = " + str(var_vals[var0]) + " * " + str(var_vals[var1]) + " = " + str(var_vals[temp_var]))
+            
+            var_vals[param_vars[p]], temp_clauses, avail_vars = GenSumText(param_vars[p], summand_vars, [var_vals[v] for v in summand_vars], avail_vars)
+            clauses.extend(temp_clauses)
+        
+        elif p.type == "inst":
+            deps = pool[p]
+            n = len(deps)
+
+            has_rng = (n < len(G[p])) # whether or not p depends on RNG
+            if has_rng and n > 1:
+                final_var = avail_vars.pop()
+            elif has_rng and n == 1:
+                final_var = param_vars[deps[0]]
+            else:
+                final_var = param_vars[p]
+
+            if n == 2 and not bin_op[p]:
+                val0, val1 = var_vals[param_vars[deps[0]]], var_vals[param_vars[deps[1]]]
+                var_vals[final_var] = (val0 - val1) % 23
+                clauses.append(
+                    final_var + " = " + param_vars[deps[0]] + " - " + param_vars[deps[1]] + " = " + str(val0) + " - " + str(val1) + " = " + str(var_vals[final_var]))
+            elif n > 1 or not has_rng:
+                summand_vars = [param_vars[q] for q in deps]
+                var_vals[final_var], temp_clauses, avail_vars = GenSumText(final_var, summand_vars, [var_vals[v] for v in summand_vars], avail_vars)
+                clauses.extend(temp_clauses)
+            
+            if has_rng:
+                if n == 0:
+                    var_vals[param_vars[p]] = rng_val[p]
+                    clauses.append(final_var + " = " + str(rng_val[p]))
+                else:
+                    if op[p]:
+                        var_vals[param_vars[p]] = (rng_val[p] + var_vals[final_var]) % 23
+                        clauses.append(
+                            param_vars[p] + " = " + str(rng_val[p]) + " + " + final_var + " = " + str(rng_val[p]) + " + " + str(var_vals[final_var]) + " = " + str(var_vals[param_vars[p]]))
+                    else:
+                        var_vals[param_vars[p]] = (rng_val[p] * var_vals[final_var]) % 23
+                        clauses.append(
+                            param_vars[p] + " = " + str(rng_val[p]) + " * " + final_var + " = " + str(rng_val[p]) + " * " + str(var_vals[final_var]) + " = " + str(var_vals[param_vars[p]]))
+
+        output += "Define " + names[p] + " as " + param_vars[p] + "; "
+
+        for clause in clauses[:-1]:
+            output += clause + "; "
+        output += "so " + clauses[-1] + ". "
+    
+    output += "Answer: " + str(var_vals[param_vars[topo[0]]])
+    return output
+
+# op_max : maximum number of operations in solution
+# ip_max : maximum number of instance parameters
+# force : if true, forces number of operations to equal op_max
+# return : sample problem in the form (full dependency graph, minimal dependency graph, topological ordering of minimal graph)
+def DrawAll(op_max, ip_max, force):
+    success = False
+
+    while True:
+        s = op_max if force else min(r.randint(1,op_max), r.randint(1,op_max))
+        n = max(r.randint(1,s), r.randint(1,s))
+        m = r.randint(n,s)
+        rel = (s-1) / (ip_max-1)
+        weights = [math.exp(-(rel-0.2)**2), math.exp(-(rel-0.5)**2), math.exp(-(rel-0.8)**2)]
+        d, = r.choices([2,3,4], weights, k=1)
+        t_0, t_1 = r.choices([2,3,4], weights, k=2)
+        w_0, w_1 = min(t_0, t_1), max(t_0, t_1)
+        e = min(r.randint((d-1)*w_0, ip_max), r.randint((d-1)*w_0, ip_max), (d-1)*(w_1**2))
+        G_s = DrawStructure(e,d,w_0,w_1)
+
+        topo = None
+        for i in range(1000):
+            G_n = DrawNecessary1(G_s,n,m)
+            if G_n == None : continue
+            topo = DrawNecessary2(G_n)
+            if topo == None : continue
+        
+        if topo == None : continue # failed 1000 times
+        DrawNecessary3(G_n, topo, s)
+        if G_n != None : break # success
+    
+    G_u = DrawUnnecessary(G_s, G_n)
+    names = AttachNames(G_s, G_u, world_knowledge)
+    problem_text, rand_data = GenProblemText(names, G_u, topo[0])
+    soln_text = GenSolutionText(names, rand_data, G_u, topo)
+    return problem_text, soln_text
+
+def iGSM_med_train_gen():
+    # TODO: implement hash splitting?
+    while True:
+        problem_text, soln_text = DrawAll(15, 20, False)
+        yield from problem_text
+        yield '\n'
+        yield from soln_text
+        yield '\n'
+
+# test - iGSM-med training data
+for c in iGSM_med_train_gen():
+    pass#print(c, end="")
