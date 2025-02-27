@@ -4,7 +4,6 @@ import math
 from collections import namedtuple
 import json
 import string
-import time
 
 f = open("nanoGPT/data_gen/world_knowledge.json")
 world_knowledge = list(json.load(f).items())
@@ -530,7 +529,10 @@ def iGSM_med_train_gen():
         yield '\n'
         yield from soln_text
         yield '\n'
+        # TODO : tokenise based on a (very large) sample
 
-# test - iGSM-med training data
-for c in iGSM_med_train_gen():
-    print(c, end="")
+# write iGSM-med training data
+path = 'big_data_sample.txt'
+with open(path, 'w') as f:
+    for c in iGSM_med_train_gen():
+        f.write(c)

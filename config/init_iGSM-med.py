@@ -1,7 +1,6 @@
 # $ torchrun --standalone --nproc_per_node=8 train.py config/train_gpt2.py
 
-#data
-dataset = 'iGSM-med'
+# data
 batch_size = 64
 block_size = 768
 gradient_accumulation_steps = 1 * 8 # used to simulate larger batch sizes

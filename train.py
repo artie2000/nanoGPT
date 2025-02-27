@@ -44,7 +44,7 @@ wandb_log = False # disabled by default
 wandb_project = 'owt'
 wandb_run_name = 'gpt2' # 'run' + str(time.time())
 # data
-dataset = 'openwebtext'
+data_iter = None # iterator yielding the data stream
 gradient_accumulation_steps = 5 * 8 # used to simulate larger batch sizes
 batch_size = 12 # if gradient_accumulation_steps > 1, this is the micro-batch size
 block_size = 1024
@@ -125,20 +125,12 @@ class IterableDatasetSynthetic(torch.utils.data.IterableDataset):
                 yield from self.fn()
         return ret()
 
-# TODO : pipe IterableDatasetSynthetic into below data loader
-
 # poor man's data loader
-data_dir = os.path.join('data', dataset)
-def get_batch(split):
-    # We recreate np.memmap every batch to avoid a memory leak, as per
-    # https://stackoverflow.com/questions/45132940/numpy-memmap-memory-usage-want-to-iterate-once/61472122#61472122
-    if split == 'train':
-        data = np.memmap(os.path.join(data_dir, 'train.bin'), dtype=np.uint16, mode='r')
-    else:
-        data = np.memmap(os.path.join(data_dir, 'val.bin'), dtype=np.uint16, mode='r')
-    ix = torch.randint(len(data) - block_size, (batch_size,))
-    x = torch.stack([torch.from_numpy((data[i:i+block_size]).astype(np.int64)) for i in ix])
-    y = torch.stack([torch.from_numpy((data[i+1:i+1+block_size]).astype(np.int64)) for i in ix])
+data_stream = iter(torch.utils.data.DataLoader(IterableDatasetSynthetic(data_iter), batch_size = block_size + 1))
+def get_batch():
+    data = [next(data_stream) for _ in range(batch_size)]
+    x = torch.stack([block[:-1] for block in data])
+    y = torch.stack([block[1:] for block in data])
     if device_type == 'cuda':
         # pin arrays x,y, which allows us to move them to GPU asynchronously (non_blocking=True)
         x, y = x.pin_memory().to(device, non_blocking=True), y.pin_memory().to(device, non_blocking=True)
@@ -146,18 +138,11 @@ def get_batch(split):
         x, y = x.to(device), y.to(device)
     return x, y
 
+get_batch()
+
 # init these up here, can override if init_from='resume' (i.e. from a checkpoint)
 iter_num = 0
 best_val_loss = 1e9
-
-# attempt to derive vocab_size from the dataset
-meta_path = os.path.join(data_dir, 'meta.pkl')
-meta_vocab_size = None
-if os.path.exists(meta_path):
-    with open(meta_path, 'rb') as f:
-        meta = pickle.load(f)
-    meta_vocab_size = meta['vocab_size']
-    print(f"found vocab_size = {meta_vocab_size} (inside {meta_path})")
 
 # model init
 model_args = dict(n_layer=n_layer, n_head=n_head, n_embd=n_embd, block_size=block_size,
@@ -166,9 +151,7 @@ if init_from == 'scratch':
     # init a new model from scratch
     print("Initializing a new model from scratch")
     # determine the vocab size we'll use for from-scratch training
-    if meta_vocab_size is None:
-        print("defaulting to vocab_size of GPT-2 to 50304 (50257 rounded up for efficiency)")
-    model_args['vocab_size'] = meta_vocab_size if meta_vocab_size is not None else 50304
+    model_args['vocab_size'] = 50304 # vocab size for GPT2 tokenisation (rounded up)
     gptconf = GPTConfig(**model_args)
     model = GPT(gptconf)
 elif init_from == 'resume':
@@ -235,7 +218,7 @@ def estimate_loss():
     for split in ['train', 'val']:
         losses = torch.zeros(eval_iters)
         for k in range(eval_iters):
-            X, Y = get_batch(split)
+            X, Y = get_batch()
             with ctx:
                 logits, loss = model(X, Y)
             losses[k] = loss.item()
@@ -263,7 +246,7 @@ if wandb_log and master_process:
     wandb.init(project=wandb_project, name=wandb_run_name, config=config)
 
 # training loop
-X, Y = get_batch('train') # fetch the very first batch
+X, Y = get_batch() # fetch the very first batch
 t0 = time.time()
 local_iter_num = 0 # number of iterations in the lifetime of this process
 raw_model = model.module if ddp else model # unwrap DDP container if needed
@@ -316,7 +299,7 @@ while True:
             logits, loss = model(X, Y)
             loss = loss / gradient_accumulation_steps # scale the loss to account for gradient accumulation
         # immediately async prefetch next batch while model is doing the forward pass on the GPU
-        X, Y = get_batch('train')
+        X, Y = get_batch()
         # backward pass, with gradient scaling if training in fp16
         scaler.scale(loss).backward()
     # clip the gradient
