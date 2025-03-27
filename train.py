@@ -126,19 +126,21 @@ class IterableDatasetSynthetic(torch.utils.data.IterableDataset):
         return ret()
 
 # poor man's data loader
-data_stream = iter(torch.utils.data.DataLoader(IterableDatasetSynthetic(data_iter), batch_size = block_size + 1))
+data_stream = iter(torch.utils.data.DataLoader(IterableDatasetSynthetic(data_iter), batch_size = block_size + 1, num_workers = 1, pin_memory = True))
 def get_batch():
+    #t0 = time.time()
     data = [next(data_stream) for _ in range(batch_size)]
+    #t1 = time.time()
+    #print(t1 - t0)
     x = torch.stack([block[:-1] for block in data])
     y = torch.stack([block[1:] for block in data])
+
     if device_type == 'cuda':
         # pin arrays x,y, which allows us to move them to GPU asynchronously (non_blocking=True)
         x, y = x.pin_memory().to(device, non_blocking=True), y.pin_memory().to(device, non_blocking=True)
     else:
         x, y = x.to(device), y.to(device)
     return x, y
-
-get_batch()
 
 # init these up here, can override if init_from='resume' (i.e. from a checkpoint)
 iter_num = 0
@@ -213,18 +215,15 @@ if ddp:
 # helps estimate an arbitrarily accurate loss over either split using many batches
 @torch.no_grad()
 def estimate_loss():
-    out = {}
     model.eval()
-    for split in ['train', 'val']:
-        losses = torch.zeros(eval_iters)
-        for k in range(eval_iters):
-            X, Y = get_batch()
-            with ctx:
-                logits, loss = model(X, Y)
-            losses[k] = loss.item()
-        out[split] = losses.mean()
+    losses = torch.zeros(eval_iters)
+    for k in range(eval_iters):
+        X, Y = get_batch()
+        with ctx:
+            logits, loss = model(X, Y)
+        losses[k] = loss.item()
     model.train()
-    return out
+    return losses.mean()
 
 # learning rate decay scheduler (cosine with warmup)
 def get_lr(it):
@@ -252,7 +251,6 @@ local_iter_num = 0 # number of iterations in the lifetime of this process
 raw_model = model.module if ddp else model # unwrap DDP container if needed
 running_mfu = -1.0
 while True:
-
     # determine and set the learning rate for this iteration
     lr = get_lr(iter_num) if decay_lr else learning_rate
     for param_group in optimizer.param_groups:
@@ -261,17 +259,16 @@ while True:
     # evaluate the loss on train/val sets and write checkpoints
     if iter_num % eval_interval == 0 and master_process:
         losses = estimate_loss()
-        print(f"step {iter_num}: train loss {losses['train']:.4f}, val loss {losses['val']:.4f}")
+        print(f"step {iter_num}: loss {losses:.4f}")
         if wandb_log:
             wandb.log({
                 "iter": iter_num,
-                "train/loss": losses['train'],
-                "val/loss": losses['val'],
+                "loss": losses,
                 "lr": lr,
                 "mfu": running_mfu*100, # convert to percentage
             })
-        if losses['val'] < best_val_loss or always_save_checkpoint:
-            best_val_loss = losses['val']
+        if losses < best_val_loss or always_save_checkpoint:
+            best_val_loss = losses
             if iter_num > 0:
                 checkpoint = {
                     'model': raw_model.state_dict(),

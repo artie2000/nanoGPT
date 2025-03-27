@@ -531,8 +531,13 @@ def iGSM_med_train_gen():
         yield '\n'
         # TODO : tokenise based on a (very large) sample
 
-# write iGSM-med training data
-path = 'big_data_sample.txt'
-with open(path, 'w') as f:
-    for c in iGSM_med_train_gen():
-        f.write(c)
+import time
+t0 = time.time()
+for i in range(10):
+    it = iGSM_med_train_gen()
+    for i in range(768 * 64):
+        next(it)
+    t1 = time.time()
+    dt = t1 - t0
+    t0 = t1
+    print(dt)
