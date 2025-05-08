@@ -1,14 +1,14 @@
-from iGSM_link import gen_problem
+from abstraction_lib import gen_train_tokens
 import os.path
 import sys
 
 def problem_token_stream():
     while True:
-        yield gen_problem("med", "train").token_id
+        yield gen_train_tokens()
 
 file_id = sys.argv[1]
 print(file_id)
-path = "iGSM-med_data_tokenised_" + file_id + ".txt"
+path = "abstraction_data_tokenised_" + file_id + ".txt"
 print(path)
 
 if os.path.isfile(path):

@@ -11,7 +11,7 @@ from model import GPTConfig, GPT
 # -----------------------------------------------------------------------------
 init_from = 'resume' # either 'resume' (from an out_dir) or a gpt2 variant (e.g. 'gpt2-xl')
 out_dir = 'out' # ignored if init_from is not 'resume'
-max_new_tokens = 65535 # number of tokens generated in each sample
+max_new_tokens = 1000 # number of tokens generated in each sample -- default 65535
 temperature = 0.8 # 1.0 = no change, < 1.0 = less random, > 1.0 = more random, in predictions
 top_k = 200 # retain only the top_k most likely tokens, clamp others to have 0 probability
 seed = 1337
@@ -72,10 +72,10 @@ else:
     decode = lambda l: enc.decode(l) """
 
 #TODO : get encoding (above) to work
-def generate(input):
+def generate(input, stop_token=ord(";")):
     # run generation
     with torch.no_grad():
         with ctx:
             x = (torch.tensor(input, dtype=torch.long, device=device)[None, ...])
-            y = model.generate(x, max_new_tokens, temperature=temperature, top_k=top_k, stop_tokens=[50256])
+            y = model.generate(x, max_new_tokens, temperature=temperature, top_k=top_k, stop_tokens=[stop_token])
             return y[0].tolist()

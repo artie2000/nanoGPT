@@ -28,6 +28,7 @@ from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.distributed import init_process_group, destroy_process_group
 
 from model import GPTConfig, GPT
+from abstraction_lib import *
 
 # -----------------------------------------------------------------------------
 # default config values designed to train a gpt2 (124M) on OpenWebText
@@ -128,10 +129,8 @@ class IterableDatasetSynthetic(torch.utils.data.IterableDataset):
 # poor man's data loader
 data_stream = iter(torch.utils.data.DataLoader(IterableDatasetSynthetic(data_iter), batch_size = block_size + 1, num_workers = 1, pin_memory = True))
 def get_batch():
-    #t0 = time.time()
+    # TODO: pin memory sooner?
     data = [next(data_stream) for _ in range(batch_size)]
-    #t1 = time.time()
-    #print(t1 - t0)
     x = torch.stack([block[:-1] for block in data])
     y = torch.stack([block[1:] for block in data])
 
@@ -225,6 +224,18 @@ def estimate_loss():
     model.train()
     return losses.mean()
 
+# for mid-training evaluation
+@torch.no_grad()
+def generate(input, max_new_tokens=500, temperature=1e-5, top_k=1, stop_token=ord(";")):
+    model.eval()
+    # run generation
+    with torch.no_grad():
+        with ctx:
+            x = (torch.tensor(input, dtype=torch.long, device=device)[None, ...])
+            y = model.generate(x, max_new_tokens, temperature=temperature, top_k=top_k, stop_tokens=[stop_token])
+    model.train()
+    return y[0].tolist()
+
 # learning rate decay scheduler (cosine with warmup)
 def get_lr(it):
     # 1) linear warmup for warmup_iters steps
@@ -280,6 +291,31 @@ while True:
                 }
                 print(f"saving checkpoint to {out_dir}")
                 torch.save(checkpoint, os.path.join(out_dir, 'ckpt.pt'))
+        
+        # benchmark mid-training
+        eval_iters = 1000
+        total_count = [0,0,0]
+
+        for i in range(eval_iters):
+            summands = gen_eval_summands(length = 2)
+            eqn_prob, eqn_full = gen_equation(summands = summands)
+            _, permuted_eqn_full = gen_equation(summands = [summands[1],summands[0]])
+            _, extra_eqn_full = gen_eval_problem(length = 2)
+            
+            responses = [
+                generate(tokenise(eqn_prob),stop_token=ord(";")),
+                generate(tokenise(permuted_eqn_full + eqn_prob),stop_token=ord(";")),
+                generate(tokenise(extra_eqn_full + eqn_prob),stop_token=ord(";"))]
+            expected_responses = [eqn_full, permuted_eqn_full + eqn_full, extra_eqn_full + eqn_full]
+
+            for j in range(len(responses)):
+                if detokenise(responses[j]) == expected_responses[j]:
+                    total_count[j] += 1
+        
+        with open("train_bench.txt", 'a') as out_file:
+            out_text = str(iter_num)+"".join([" " + str(c) for c in total_count])+"\n"
+            print(out_text)
+            out_file.write(out_text)
     if iter_num == 0 and eval_only:
         break
 
