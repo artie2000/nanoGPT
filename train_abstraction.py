@@ -1,12 +1,17 @@
 # $ torchrun --standalone --nproc_per_node=8 train.py config/train_gpt2.py
+from abstraction_lib import gen_train_tokens
 
 # data
-def data_gen():
+def data_gen_from_file():
     with open('abstraction_data_tokenised.txt', 'r') as reader:
         for line in reader:
             yield int(line)
 
-data_iter = data_gen
+def data_gen_on_demand():
+    while True:
+        yield from gen_train_tokens()
+
+data_iter = data_gen_on_demand
 batch_size = 64
 block_size = 768
 gradient_accumulation_steps = 1 * 8 # used to simulate larger batch sizes

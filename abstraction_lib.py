@@ -30,7 +30,7 @@ def gen_equation(length = None, summands = None, order = None):
         else:
             text = str(summands[i]) + "+" + text
     
-    question = text + "="
+    question = ":" + text + "="
     full = question + str(sum(summands)) + ";"
 
     return question, full
