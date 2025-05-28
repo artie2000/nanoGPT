@@ -297,7 +297,6 @@ while True:
         total_count = [0,0,0]
 
         for i in range(eval_iters):
-            print(i)
             summands = gen_eval_summands(length = 2)
             eqn_prob, eqn_full = gen_equation(summands = summands)
             _, permuted_eqn_full = gen_equation(summands = [summands[1],summands[0]])
