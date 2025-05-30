@@ -1,5 +1,6 @@
 import random
-from dataclasses import dataclass
+import re
+import hashlib
 
 def tokenise(text):
     return [ord(c) for c in text]
@@ -44,6 +45,22 @@ def text_to_tree(text):
     return {"var" : None,
             "left" : text_to_tree(text[:key_pos]),
             "right" : text_to_tree(text[key_pos+1:])}
+
+def hash_tree(tree):
+    text = tree_to_text(tree)
+
+    # regularise variables
+    reg_text = text
+    vars = []
+    for m in re.finditer(r"[0-9]+", text):
+        if m.group() not in vars:
+            vars.append(m.group())
+    var_dict = {vars[i]:str(i) for i in range(len(vars))}
+    for m in re.finditer(r"[0-9]+", text):
+        reg_text = reg_text[:m.start()]+var_dict[m.group()]+reg_text[m.end():]
+    
+    # hash
+    return int(hashlib.md5(reg_text.encode("utf-8")).hexdigest(), 16) % 10
 
 def get_tree_vars(tree):
     if tree["var"] != None:
@@ -102,8 +119,6 @@ def gen_text(tree, derived):
     text_full = text_start + tree_to_text(tree) + "$"
     return text_start, text_full
 
-gen_problem = lambda: gen_text(*gen_tree_with_subs())
-
 # parse and check (see gen_text for format)
 # tree: the base tree, derived: the substitutions of the base tree
 def check_generalisation(tree, derived, text_full):
@@ -121,15 +136,24 @@ def check_generalisation(tree, derived, text_full):
         return False, "Not a substitution of the base tree"
 
 def gen_train_tokens():
-    _, text_full = gen_problem()
+    while True:
+        tree, derived = gen_tree_with_subs()
+        _, text_full = gen_text(tree, derived)
+
+        if hash_tree(tree) != 7:
+            break
+
     yield from tokenise(text_full)
-    # TODO : add hashing
 
 def gen_eval_problem():
-    tree, derived = gen_tree_with_subs()
-    text_start, _ = gen_text(tree, derived)
+    while True:
+        tree, derived = gen_tree_with_subs()
+        text_start, _ = gen_text(tree, derived)
+
+        if hash_tree(tree) == 7:
+            break
+    
     return tree, derived, text_start
-    # TODO : add hashing
 
 # model: function completing problem string -> solution string
 def eval_model(model, eval_iters=1000):

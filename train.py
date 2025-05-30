@@ -296,9 +296,9 @@ while True:
         bench_data_str = eval_fn(lambda inp : generate(inp, stop_token=eval_stop_token))
         
         with open("train_bench-"+out_name+".txt", 'a') as out_file:
-            out_text = str(iter_num)+": "+bench_data_str+"\n"
+            out_text = str(iter_num)+": "+bench_data_str
             print(out_text)
-            out_file.write(out_text)
+            out_file.write(out_text+"\n")
     if iter_num == 0 and eval_only:
         break
 

@@ -1,11 +1,8 @@
-import sys
-from sample import generate
+from sample import *
 
-test_file_name = "eval"
-
-with open(test_file_name+".txt",'r') as inp_file:
-    with open(test_file_name+"-out.txt",'w') as out_file:
-        while line := inp_file.readline():
-            out = "".join([chr(c) for c in generate([ord(c) for c in line], stop_token=eval_stop_token)])
-            print(out)
-            out_file.write(out+"\n")
+bench_data_str = eval_fn(lambda inp : generate(inp, stop_token=eval_stop_token),eval_iters=100)
+        
+with open("eval-"+out_name+".txt", 'w') as out_file:
+    out_text = bench_data_str
+    print(out_text)
+    out_file.write(out_text+"\n")
