@@ -1,8 +1,11 @@
 import sys
+from sample import generate
 
-test_file_name = "config/test_iGSM-med.txt"
+test_file_name = "eval"
 
-with open(test_file_name) as file:
-    while line := file.readline():
-        sys.argv.append("--start="+line) # set starting prompt
-        exec(open('sample.py').read())
+with open(test_file_name+".txt",'r') as inp_file:
+    with open(test_file_name+"-out.txt",'w') as out_file:
+        while line := inp_file.readline():
+            out = "".join([chr(c) for c in generate([ord(c) for c in line], stop_token=eval_stop_token)])
+            print(out)
+            out_file.write(out+"\n")

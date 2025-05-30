@@ -64,3 +64,23 @@ def gen_eval_summands(length = None):
 def gen_eval_problem(length = None, summands = None, order = None):
     summands = gen_eval_summands(length = length)
     return gen_equation(summands = summands, order = order)
+
+# model: function completing problem string -> solution string
+def eval_model(model, eval_iters=1000):
+    total_count = [0,0,0]
+
+    for i in range(eval_iters):
+        summands = gen_eval_summands(length = 2)
+        eqn_prob, eqn_full = gen_equation(summands = summands)
+        _, permuted_eqn_full = gen_equation(summands = [summands[1],summands[0]])
+        _, extra_eqn_full = gen_eval_problem(length = 2)
+        
+        inputs = [eqn_prob, permuted_eqn_full + eqn_prob, extra_eqn_full + eqn_prob]
+        responses = [detokenise(model(tokenise(inp))) for inp in inputs]
+        expected_responses = [eqn_full, permuted_eqn_full + eqn_full, extra_eqn_full + eqn_full]
+
+        for j in range(len(responses)):
+            if responses[j] == expected_responses[j]:
+                total_count[j] += 1
+    
+    return "".join([" " + str(c) for c in total_count])[1:]

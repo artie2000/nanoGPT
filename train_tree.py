@@ -1,16 +1,14 @@
 # $ torchrun --standalone --nproc_per_node=8 train.py config/train_gpt2.py
-from abstraction_lib import gen_train_tokens
+from tree_generalisation_lib import gen_train_tokens, eval_model
 
 # data
-def data_gen_from_file():
-    with open('abstraction_data_tokenised.txt', 'r') as reader:
-        for line in reader:
-            yield int(line)
-
 def data_gen_on_demand():
     while True:
         yield from gen_train_tokens()
 
+out_name = "tree"
+eval_fn = eval_model
+eval_stop_token = ord("$")
 data_iter = data_gen_on_demand
 batch_size = 64
 block_size = 768

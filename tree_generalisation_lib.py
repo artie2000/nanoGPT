@@ -102,6 +102,8 @@ def gen_text(tree, derived):
     text_full = text_start + tree_to_text(tree) + "$"
     return text_start, text_full
 
+gen_problem = lambda: gen_text(*gen_tree_with_subs())
+
 # parse and check (see gen_text for format)
 # tree: the base tree, derived: the substitutions of the base tree
 def check_generalisation(tree, derived, text_full):
@@ -117,3 +119,25 @@ def check_generalisation(tree, derived, text_full):
             return False, "Not a generalisation of the derived trees"
     else:
         return False, "Not a substitution of the base tree"
+
+def gen_train_tokens():
+    _, text_full = gen_problem()
+    yield from tokenise(text_full)
+    # TODO : add hashing
+
+def gen_eval_problem():
+    tree, derived = gen_tree_with_subs()
+    text_start, _ = gen_text(tree, derived)
+    return tree, derived, text_start
+    # TODO : add hashing
+
+# model: function completing problem string -> solution string
+def eval_model(model, eval_iters=1000):
+    count = 0
+
+    for i in range(eval_iters):
+        tree, derived, text_start = gen_eval_problem()
+        if check_generalisation(tree, derived, detokenise(model(tokenise(text_start))))[0]:
+            count += 1
+
+    return str(count)

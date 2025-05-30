@@ -28,12 +28,11 @@ from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.distributed import init_process_group, destroy_process_group
 
 from model import GPTConfig, GPT
-from abstraction_lib import *
 
 # -----------------------------------------------------------------------------
 # default config values designed to train a gpt2 (124M) on OpenWebText
 # I/O
-out_dir = 'out'
+out_name = ''
 eval_interval = 2000
 log_interval = 1
 eval_iters = 200
@@ -101,6 +100,7 @@ else:
     ddp_world_size = 1
 tokens_per_iter = gradient_accumulation_steps * ddp_world_size * batch_size * block_size
 print(f"tokens per iteration will be: {tokens_per_iter:,}")
+out_dir = "out-" + out_name
 
 if master_process:
     os.makedirs(out_dir, exist_ok=True)
@@ -293,27 +293,10 @@ while True:
                 torch.save(checkpoint, os.path.join(out_dir, 'ckpt.pt'))
         
         # benchmark mid-training
-        eval_iters = 1000
-        total_count = [0,0,0]
-
-        for i in range(eval_iters):
-            summands = gen_eval_summands(length = 2)
-            eqn_prob, eqn_full = gen_equation(summands = summands)
-            _, permuted_eqn_full = gen_equation(summands = [summands[1],summands[0]])
-            _, extra_eqn_full = gen_eval_problem(length = 2)
-            
-            responses = [
-                generate(tokenise(eqn_prob),stop_token=ord(";")),
-                generate(tokenise(permuted_eqn_full + eqn_prob),stop_token=ord(";")),
-                generate(tokenise(extra_eqn_full + eqn_prob),stop_token=ord(";"))]
-            expected_responses = [eqn_full, permuted_eqn_full + eqn_full, extra_eqn_full + eqn_full]
-
-            for j in range(len(responses)):
-                if detokenise(responses[j]) == expected_responses[j]:
-                    total_count[j] += 1
+        bench_data_str = eval_fn(lambda inp : generate(inp, stop_token=eval_stop_token))
         
-        with open("train_bench.txt", 'a') as out_file:
-            out_text = str(iter_num)+"".join([" " + str(c) for c in total_count])+"\n"
+        with open("train_bench-"+out_name+".txt", 'a') as out_file:
+            out_text = str(iter_num)+": "+bench_data_str+"\n"
             print(out_text)
             out_file.write(out_text)
     if iter_num == 0 and eval_only:
