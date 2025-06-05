@@ -271,6 +271,7 @@ while True:
     if iter_num % eval_interval == 0 and master_process:
         losses = estimate_loss()
         print(f"step {iter_num}: loss {losses:.4f}")
+        
         if wandb_log:
             wandb.log({
                 "iter": iter_num,
@@ -292,13 +293,14 @@ while True:
                 print(f"saving checkpoint to {out_dir}")
                 torch.save(checkpoint, os.path.join(out_dir, 'ckpt.pt'))
         
-        # benchmark mid-training
-        bench_data_str = eval_fn(lambda inp : generate(inp, stop_token=eval_stop_token))
-        
-        with open("train_bench-"+out_name+".txt", 'a') as out_file:
-            out_text = str(iter_num)+": "+bench_data_str
-            print(out_text)
-            out_file.write(out_text+"\n")
+        # benchmark mid-training (first part)
+        if iter_num > 0:
+            bench_data_str = eval_fn(lambda inp : generate(inp, stop_token=eval_stop_token))
+            with open("train_bench-"+out_name+".txt", 'a') as out_file:
+                out_str = f"Step {iter_num}; val-loss {losses:.4f}; accuracy: {bench_data_str}; "
+                print(out_str,end="")
+                out_file.write(out_str)
+    
     if iter_num == 0 and eval_only:
         break
 
@@ -327,6 +329,14 @@ while True:
     scaler.update()
     # flush the gradients as soon as we can, no need for this memory anymore
     optimizer.zero_grad(set_to_none=True)
+
+    # benchmark mid-training (second part)
+    if iter_num > 0 and iter_num % eval_interval == 0 and master_process:
+        with open("train_bench-"+out_name+".txt", 'a') as out_file:
+            lossf = loss.item() * gradient_accumulation_steps
+            out_str = f"train-loss: {lossf:.4f}\n"
+            print(out_str,end="")
+            out_file.write(out_str)
 
     # timing and logging
     t1 = time.time()

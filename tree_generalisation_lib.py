@@ -35,7 +35,7 @@ def text_to_tree(text):
             b -= 1
         if b == 0 and c == ">":
             key_pos = i
-    
+
     if text[0] == "(" and key_pos == None: # expression is bracketed
         return text_to_tree(text[1:-1])
 
@@ -50,15 +50,10 @@ def hash_tree(tree):
     text = tree_to_text(tree)
 
     # regularise variables
-    reg_text = text
-    vars = []
-    for m in re.finditer(r"[0-9]+", text):
-        if m.group() not in vars:
-            vars.append(m.group())
+    vars = list(dict.fromkeys(re.findall(r"[0-9]+", text))) # deduplicate
     var_dict = {vars[i]:str(i) for i in range(len(vars))}
-    for m in re.finditer(r"[0-9]+", text):
-        reg_text = reg_text[:m.start()]+var_dict[m.group()]+reg_text[m.end():]
-    
+    reg_text = re.sub(r"[0-9]+", lambda m: var_dict[m.group()], text)
+
     # hash
     return int(hashlib.md5(reg_text.encode("utf-8")).hexdigest(), 16) % 10
 
@@ -152,7 +147,7 @@ def gen_eval_problem():
 
         if hash_tree(tree) == 7:
             break
-    
+
     return tree, derived, text_start
 
 # model: function completing problem string -> solution string

@@ -1,4 +1,6 @@
 import random
+import re
+import hashlib
 
 def tokenise(text):
     return [ord(c) for c in text]
@@ -36,10 +38,10 @@ def gen_equation(length = None, summands = None, order = None):
     return question, full
 
 def hash_summands(summands):
-    return (sum([sum([int(c) for c in str(num)]) for num in summands]) + sum([int(c) for c in str(sum(summands))])) % 7
+    return int(hashlib.md5("".join([str(s) + " " for s in sorted(summands)]).encode("utf-8")).hexdigest(), 16) % 10
 
 def hash_equation(text):
-    return sum([int(c) for c in text if c.isdigit()]) % 7
+    return hash_summands(int(s) for s in re.findall(r"[0-9]+", text)[:-1])
 
 def gen_train_tokens():
     while True:
