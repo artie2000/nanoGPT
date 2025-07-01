@@ -88,7 +88,7 @@ def substitute(base, vars):
 def get_substitution(f, g):
     if f["var"] != None: # f leaf
         return True, {f["var"] : g}
-    
+
     if g["var"] != None: # f not leaf, g leaf
         return False, None
 
@@ -99,14 +99,17 @@ def get_substitution(f, g):
         compat = all([subs_l[var] == subs_r[var] for var in subs_l.keys() & subs_r.keys()])
         subs = subs_l | subs_r if compat else None
         return compat, subs
-    
+
     return False, None
 
-def gen_tree_with_subs(k = 10):
+def gen_tree_with_subs(k = 10, prop_correct = 1):
     tree = gen_tree()
     vars = get_tree_vars(tree)
+    num_correct = int(k * prop_correct)
     derived = [substitute(tree, {var: gen_tree(depth_probs = [0.75,0.5,0.25,0]) for var in vars})
-               for _ in range(k)]
+               for _ in range(num_correct)]
+    derived.extend([gen_tree() for _ in range(k - num_correct)])
+    random.shuffle(derived)
     return tree, derived
 
 def gen_text(tree, derived):
@@ -140,9 +143,9 @@ def gen_train_tokens():
 
     yield from tokenise(text_full)
 
-def gen_eval_problem():
+def gen_eval_problem(prop_correct = 1):
     while True:
-        tree, derived = gen_tree_with_subs()
+        tree, derived = gen_tree_with_subs(prop_correct = prop_correct)
         text_start, _ = gen_text(tree, derived)
 
         if hash_tree(tree) == 7:
