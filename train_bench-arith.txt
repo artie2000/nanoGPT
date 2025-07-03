@@ -1,19 +1,9 @@
-Step 1000; val-loss 1.6124; accuracy: 1 0 0; train-loss: 1.6128
-Step 2000; val-loss 1.4964; accuracy: 718 695 707; train-loss: 1.4952
-Step 3000; val-loss 1.4796; accuracy: 799 818 830; train-loss: 1.4836
-Step 4000; val-loss 1.4696; accuracy: 857 879 907; train-loss: 1.4763
-Step 5000; val-loss 1.4694; accuracy: 905 924 931; train-loss: 1.4738
-Step 6000; val-loss 1.4592; accuracy: 917 954 952; train-loss: 1.4586
-Step 7000; val-loss 1.4489; accuracy: 905 934 952; train-loss: 1.4443
-Step 8000; val-loss 1.4404; accuracy: 896 917 927; train-loss: 1.4401
-Step 9000; val-loss 1.4315; accuracy: 903 897 923; train-loss: 1.4338
-Step 10000; val-loss 1.4290; accuracy: 906 897 914; train-loss: 1.4316
 Step 1000; val-loss 1.6841; accuracy: 0 0 0; train-loss: 1.6853
 Step 2000; val-loss 1.7312; accuracy: 0 0 0; train-loss: 1.7285
 Step 3000; val-loss 2.2387; accuracy: 0 0 0; train-loss: 2.2392
 Step 4000; val-loss 2.2608; accuracy: 0 0 0; train-loss: 2.2622
 Step 5000; val-loss 2.3524; accuracy: 0 0 0; train-loss: 2.3522
-Step 6000; val-loss 2.3323; accuracy: 0 0 0; Step 6000; val-loss 2.3322; accuracy: 0 0 0; train-loss: 2.3331
+Step 6000; val-loss 2.3322; accuracy: 0 0 0; train-loss: 2.3331
 Step 7000; val-loss 2.3246; accuracy: 0 0 0; train-loss: 2.3263
 Step 8000; val-loss 2.3548; accuracy: 0 0 0; train-loss: 2.3561
 Step 9000; val-loss 2.3371; accuracy: 0 0 0; train-loss: 2.3357
@@ -23,4 +13,10 @@ Step 12000; val-loss 2.3214; accuracy: 0 0 0; train-loss: 2.3224
 Step 13000; val-loss 2.3344; accuracy: 0 0 0; train-loss: 2.3356
 Step 14000; val-loss 2.3184; accuracy: 0 0 0; train-loss: 2.3213
 Step 15000; val-loss 2.3173; accuracy: 0 0 0; train-loss: 2.3168
-Step 16000; val-loss 2.3200; accuracy: 0 0 0; 
+Step 16000; val-loss 2.3200; accuracy: 0 0 0; Step 16000; val-loss 2.3200; accuracy: 0 0 0; train-loss: 2.3207
+Step 17000; val-loss 2.3182; accuracy: 0 0 0; train-loss: 2.3178
+Step 18000; val-loss 2.2985; accuracy: 0 0 0; train-loss: 2.2987
+Step 19000; val-loss 2.3264; accuracy: 0 0 0; train-loss: 2.3246
+Step 20000; val-loss 2.3366; accuracy: 0 0 0; train-loss: 2.3347
+Step 21000; val-loss 2.3789; accuracy: 0 0 0; train-loss: 2.3797
+Step 22000; val-loss 2.3289; accuracy: 0 0 0; 
