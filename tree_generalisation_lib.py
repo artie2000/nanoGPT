@@ -160,8 +160,11 @@ def gen_tree_with_subs(k = 10, prop_correct = 1):
     tree = gen_tree(n)
     vars = get_tree_vars(tree)
     num_correct = int(k * prop_correct)
+
+    # correct substitutions
     derived = [substitute(tree, {var: gen_tree(n_min=1,n_max=7) for var in vars})
                for _ in range(num_correct)]
+    # fake substitutions (length is roughly correct)
     derived.extend([gen_tree(n_min=2*n,n_max=5*n) for _ in range(k - num_correct)])
 
     # shuffle
