@@ -187,7 +187,7 @@ def check_generalisation(tree, derived, correct_inds, text_full):
         return False, str(e)
 
     if get_substitution(tree, gen)[0]:
-        if all([get_substitution(gen, derived[i])[0] for i in range(len(derived)) if i in correct_inds]):
+        if all([get_substitution(gen, derived[i])[0] for i in correct_inds]):
             return True, None
         else:
             return False, "Not a generalisation of the derived trees"
