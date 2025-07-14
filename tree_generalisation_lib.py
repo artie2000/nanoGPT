@@ -156,7 +156,7 @@ def get_substitution(f, g):
 
 # return: tree, substitutions, indices of correct substitutions
 def gen_tree_with_subs(k = 10, prop_correct = 1):
-    n = n = random.randrange(2, 21)
+    n = random.randrange(2, 21)
     tree = gen_tree(n)
     vars = get_tree_vars(tree)
     num_correct = int(k * prop_correct)
@@ -166,7 +166,7 @@ def gen_tree_with_subs(k = 10, prop_correct = 1):
                for _ in range(num_correct)]
     # fake substitutions (length is roughly correct)
     derived.extend([gen_tree(n_min=2*n,n_max=5*n) for _ in range(k - num_correct)])
-
+    
     # shuffle
     indices = list(range(k))
     random.shuffle(indices)

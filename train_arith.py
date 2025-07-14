@@ -41,4 +41,4 @@ beta2 = 0.98
 decay_lr = True # whether to decay the learning rate
 warmup_iters = 1000 # how many steps to warm up for
 lr_decay_iters = 100_000 # should be ~= max_iters per Chinchilla
-min_lr = 0.00002 # minimum learning rate, should be ~= learning_rate/10 per Chinchilla
+min_lr = 0.0002 # minimum learning rate, should be ~= learning_rate/10 per Chinchilla
