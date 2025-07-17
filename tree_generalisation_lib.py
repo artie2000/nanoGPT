@@ -194,9 +194,9 @@ def check_generalisation(tree, derived, correct_inds, text_full):
     else:
         return False, "Not a substitution of the base tree"
 
-def gen_train_tokens():
+def gen_train_tokens(prop_correct_fn = lambda: random.uniform(0.5,1)):
     while True:
-        prop_correct = random.uniform(0.5,1)
+        prop_correct = prop_correct_fn()
         tree, derived, _ = gen_tree_with_subs(prop_correct = prop_correct)
         _, text_full = gen_text(tree, derived)
 
@@ -216,11 +216,11 @@ def gen_eval_problem(prop_correct = 1):
     return tree, derived, correct_inds, text_start
 
 # model: function completing problem string -> solution string
-def eval_model(model, eval_iters=1000):
+def eval_model(model, eval_iters=1000, prop_correct = 0.6):
     count = 0
 
     for i in range(eval_iters):
-        tree, derived, correct_inds, text_start = gen_eval_problem(prop_correct = 0.6)
+        tree, derived, correct_inds, text_start = gen_eval_problem(prop_correct = prop_correct)
         if check_generalisation(tree, derived, correct_inds, detokenise(model(tokenise(text_start))))[0]:
             count += 1
 

@@ -4,10 +4,10 @@ from tree_generalisation_lib import gen_train_tokens, eval_model
 # data
 def data_gen_on_demand():
     while True:
-        yield from gen_train_tokens()
+        yield from gen_train_tokens(prop_correct_fn = lambda: 1)
 
 out_name = "tree"
-eval_fn = eval_model
+eval_fn = lambda model: eval_model(model, prop_correct = 1)
 eval_stop_token = ord("$")
 data_iter = data_gen_on_demand
 batch_size = 64
