@@ -1,19 +1,15 @@
 # $ torchrun --standalone --nproc_per_node=8 train.py config/train_gpt2.py
-from abstraction_lib import gen_train_tokens, eval_model
+from tree_generalisation_lib import gen_train_tokens, eval_model
+import random
 
 # data
-def data_gen_from_file():
-    with open('abstraction_data_tokenised.txt', 'r') as reader:
-        for line in reader:
-            yield int(line)
-
 def data_gen_on_demand():
     while True:
-        yield from gen_train_tokens()
+        yield from gen_train_tokens(prop_correct_fn = lambda: random.choice([0.5,0.6,0.7,0.8,0.9,1]))
 
-out_name = "arith"
-eval_fn = eval_model
-eval_stop_token = ord(";")
+out_name = "tree-full-fuzzy"
+eval_fn = lambda model: eval_model(model, prop_correct = 0.6)
+eval_stop_token = ord("$")
 data_iter = data_gen_on_demand
 batch_size = 32
 block_size = 768
@@ -26,8 +22,8 @@ n_embd = 768
 
 # eval stuff
 eval_interval = 1000
-eval_iters = 200
-log_interval = 10
+eval_iters = 1000
+log_interval = 100
 out_dir = 'out' # checkpointing
 
 # optimizer
