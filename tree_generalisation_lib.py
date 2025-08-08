@@ -155,8 +155,12 @@ def get_substitution(f, g):
     return False, None
 
 # return: tree, substitutions, indices of correct substitutions
-def gen_tree_with_subs(k = 10, prop_correct = 1):
-    n = random.randrange(2, 21)
+def gen_tree_with_subs(k = 10, prop_correct = 1, n = None):
+    
+    # pick random length if not given
+    if n = None:
+        n = random.randrange(2, 21)
+    
     tree = gen_tree(n)
     vars = get_tree_vars(tree)
     num_correct = int(k * prop_correct)
@@ -205,9 +209,9 @@ def gen_train_tokens(prop_correct_fn = lambda: random.uniform(0.5,1)):
 
     yield from tokenise(text_full)
 
-def gen_eval_problem(prop_correct = 1):
+def gen_eval_problem(prop_correct = 1, length=None):
     while True:
-        tree, derived, correct_inds = gen_tree_with_subs(prop_correct = prop_correct)
+        tree, derived, correct_inds = gen_tree_with_subs(prop_correct = prop_correct, n = length)
         text_start, _ = gen_text(tree, derived)
 
         if hash_tree(tree) == 7:
@@ -216,11 +220,11 @@ def gen_eval_problem(prop_correct = 1):
     return tree, derived, correct_inds, text_start
 
 # model: function completing problem string -> solution string
-def eval_model(model, eval_iters=1000, prop_correct = 0.6):
+def eval_model(model, eval_iters=1000, prop_correct = 0.6, length=None):
     count = 0
 
     for i in range(eval_iters):
-        tree, derived, correct_inds, text_start = gen_eval_problem(prop_correct = prop_correct)
+        tree, derived, correct_inds, text_start = gen_eval_problem(prop_correct = prop_correct, length = length)
         if check_generalisation(tree, derived, correct_inds, detokenise(model(tokenise(text_start))))[0]:
             count += 1
 
